@@ -1,4 +1,26 @@
 empty_page '', 'Pasela Search', theme: :dark do
+modal "scan_qr" do
+  header { 
+      h4 "Scan QR Code" 
+  }
+  body {
+      div class: "container", style: "width:100%;" do
+        div class: "section" do
+          div id: "qr-reader" do end
+        end
+      end
+  }
+  footer do
+    normal_button "Close" do
+      script "$('#scan_qr').modal('hide');"
+    end
+  end
+end
+
+normal_button "Scan QR Code" do
+  script "$('#scan_qr').modal('show'); scan_qr();"
+end
+
   h1 "Pasela Search"
   wform do
     textfield "search"
@@ -21,6 +43,7 @@ empty_page '', 'Pasela Search', theme: :dark do
   end.join(", ")
 
   request_js 'js/main.js'
+  request_js 'js/html5-qrcode.min.js'
 
   script <<~SCRIPT
   

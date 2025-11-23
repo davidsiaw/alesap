@@ -1,3 +1,21 @@
+var akey
+var skey
+var scd
+
+function onScanSuccess(qr_value) {
+    [akey, skey, scd] = qr_value.split('/')[2].split(',')
+    alert("akey: " + akey + "\nskey: " + skey + "\nscd: " + scd)
+    $('#scan_qr').modal('hide');
+}
+
+function scan_qr()
+{
+    let htmlscanner = new Html5QrcodeScanner(
+        "qr-reader",
+        { fps: 10, qrbos: 250 }
+    );
+    htmlscanner.render(onScanSuccess);
+}
 
 function start_search()
 {
