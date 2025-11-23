@@ -46,14 +46,12 @@ end
   request_js 'js/html5-qrcode.min.js'
 
   script <<~SCRIPT
-  
     function getcolumns() {
       return { #{column_hash} };
     };
   SCRIPT
 
   on_page_load <<~SCRIPT
-
     $(window).keydown(function(event){
       if(event.keyCode == 13) {
         start_search()
