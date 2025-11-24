@@ -79,7 +79,7 @@ function start_search()
 
     $.ajax({
         type: "POST",
-        url: "http://192.168.1.15:3000/api/v1/command/search/",
+        url: API_URL + "/api/v1/command/search/",
         data: JSON.stringify({
             str: search_string
         }),

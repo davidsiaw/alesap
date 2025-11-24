@@ -7,7 +7,7 @@ mv build/.git gitbak
 rm -rf build
 mkdir -p build/weaver
 sleep 2
-docker run --rm -v $PWD/pages:/app/pages -v $PWD/images:/app/images -v $PWD/build:/app/build davidsiaw/alesap sh bin/build.sh
+bundle exec weaver build --root=alesap.astrobunny.net
 mv gitbak build/.git
 cd build
 echo alesap.astrobunny.net > CNAME
