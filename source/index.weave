@@ -1,74 +1,72 @@
 empty_page '', 'Pasela Search', theme: :dark do
-modal "scan_qr" do
-  header { 
-      h4 "Scan QR Code" 
-  }
-  body {
-      div class: "container", style: "width:100%;" do
-        div class: "section" do
-          div id: "qr-reader" do end
+    request_js 'js/main.js'
+    request_js 'js/html5-qrcode.min.js'
+
+    modal "scan_qr" do
+        header { 
+            h4 "Scan QR Code" 
+        }
+        body {
+            div class: "container", style: "width:100%;" do
+                div class: "section" do
+                    div id: "qr-reader" do end
+                end
+            end
+        }
+        footer do
+            normal_button "Close" do
+                script "$('#scan_qr').modal('hide');"
+            end
         end
-      end
-  }
-  footer do
-    normal_button "Close" do
-      script "$('#scan_qr').modal('hide');"
     end
-  end
-end
 
-normal_button "Scan QR Code" do
-  script "$('#scan_qr').modal('show'); scan_qr();"
-end
-
-  h1 "Pasela Search"
-  wform do
-    textfield "search"
-  end
-
-  columns = {
-    song: "Song Name",
-    artist: "Artist",
-    code: "Code"
-  }
-
-  table_from_source "empty.json" do
-    columns.each do |name, title|
-      column name.to_s, title: title
+    normal_button "Scan QR Code" do
+        script "$('#scan_qr').modal('show'); scan_qr();"
     end
-  end
 
-  column_hash = columns.each_with_index.map do |(name, title),i|
-    "#{name}: #{i}"
-  end.join(", ")
+    h1 "Pasela Search"
+    wform do
+        textfield "search"
+    end
 
-  request_js 'js/main.js'
-  request_js 'js/html5-qrcode.min.js'
+    columns = {
+        song: "Song Name",
+        artist: "Artist",
+        code: "Code"
+    }
 
-  script <<~SCRIPT
-  
-    function getcolumns() {
-      return { #{column_hash} };
-    };
-  SCRIPT
+    table_from_source "empty.json" do
+        columns.each do |name, title|
+            column name.to_s, title: title
+        end
+    end
 
-  on_page_load <<~SCRIPT
+    column_hash = columns.each_with_index.map do |(name, title),i|
+        "#{name}: #{i}"
+    end.join(", ")
 
-    $(window).keydown(function(event){
-      if(event.keyCode == 13) {
-        start_search()
-        event.preventDefault();
-        return false;
-      }
-    });
+    script <<~SCRIPT
+        function getcolumns() {
+            return { #{column_hash} };
+        };
+    SCRIPT
 
-    $("#textfield0").on("change", "", function() {
-      start_search()
-    });
-  SCRIPT
+    on_page_load <<~SCRIPT
+        $(window).keydown(function(event){
+            if(event.keyCode == 13) {
+                start_search()
+                event.preventDefault();
+                return false;
+            }
+        });
+
+        $("#textfield0").on("change", "", function() {
+            start_search()
+        });
+    SCRIPT
 end
 
 raw_page 'empty.json', 'empty.json' do
-  h = []
-  text h.to_json
+    h = []
+    text h.to_json
 end
