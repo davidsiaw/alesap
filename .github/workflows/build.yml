@@ -29,6 +29,7 @@ jobs:
         git config --global gpg.format ssh
         git config --global commit.gpgsign true
         echo $SIGNINGKEY > signingkey
+        chmod 600 signingkey
         git config --global user.signingkey $PWD/signingkey
         sh deploy.sh
 
