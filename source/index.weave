@@ -9,7 +9,7 @@ empty_page '', 'Pasela Search', theme: :dark do
         body {
             div class: "container", style: "width:100%;" do
                 div class: "section" do
-                    div id: "qr-reader" do end
+                    div id: "reader" do end
                 end
             end
         }

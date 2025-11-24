@@ -2,19 +2,31 @@ var akey
 var skey
 var scd
 
-function onScanSuccess(qr_value) {
-    [akey, skey, scd] = qr_value.split('/')[2].split(',')
-    alert("akey: " + akey + "\nskey: " + skey + "\nscd: " + scd)
-    $('#scan_qr').modal('hide');
-}
-
 function scan_qr()
 {
-    let htmlscanner = new Html5QrcodeScanner(
-        "qr-reader",
-        { fps: 10, qrbos: 250 }
-    );
-    htmlscanner.render(onScanSuccess);
+    const html5QrCode = new Html5Qrcode("reader");
+    const qrCodeSuccessCallback = (decodedText, decodedResult) => {
+        html5QrCode.stop().then((ignore) => {
+            $('#scan_qr').modal('hide');
+            [akey, skey, scd] = decodedText.split('/')[2].split(',');
+            console.log("akey: " + akey + "\nskey: " + skey + "\nscd: " + scd);
+        }).catch((err) => {
+            console.log(err);
+        });
+    };
+    const config = { fps: 10, qrbox: { width: 250, height: 250 } };
+    html5QrCode.start({ facingMode: { exact: "environment"} }, config, qrCodeSuccessCallback)
+    .catch(err => {
+        Html5Qrcode.getCameras().then(devices => {
+            if (devices && devices.length) {
+                //TODO: implement device selector
+                var cameraId = devices[2].id;
+                html5QrCode.start({ deviceId: { exact: cameraId} }, config, qrCodeSuccessCallback);
+            }
+        }).catch(err => {
+            console.log(err);
+        });
+    });
 }
 
 function start_search()
