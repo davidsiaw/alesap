@@ -5,7 +5,7 @@ var scd  = '';
 
 function startup()
 {
-    $(window).keydown(function(event){
+    $(window).keydown(function(event) {
         if(event.keyCode == 13) {
             start_search()
             event.preventDefault();
@@ -16,6 +16,9 @@ function startup()
     $("#textfield0").on("change", "", function() {
         start_search()
     });
+
+    clear();
+    append_table([{song: "test_song", code: "test_code", artist: "test_artist"}]);
 }
 
 function scan_qr()
@@ -60,10 +63,18 @@ function scan_qr()
         });
 }
 
+function fill_song_modal(song)
+{
+    $("#song_modal").modal("show");
+    var song = $(song).children("td");
+    for(var i = 0; i < song.length; i++) {
+        $(`#${song[i].id.split('-')[0]}-modal`).text(song[i].innerText);
+    }
+}
+
 function start_search()
 {
     var search_string = $("#textfield0").val();
-
     console.log(search_string)
 
     $.ajax({
@@ -80,7 +91,6 @@ function start_search()
         append_table(data.results[0]);
     })
 }
-
 
 function get_form0_object()
 {
@@ -99,33 +109,24 @@ function clear()
 function append_table(data)
 {
     var query_object = {};
-
     var data_object = {};
-    if (data !== null && typeof data === 'object')
-    {
+
+    if (data !== null && typeof data === 'object') {
         data_object = data;
-    }
-    else
-    {
+    } else {
         data_object = data;
     }
 
     var body = $("#dyn_table0_body")
-
     var columns = getcolumns();
 
-    var row = $('<tr>');
-
-
-    for (var index in data_object)
-    {
-        var row = $('<tr>');
+    for (var index in data_object) {
+        var row = $('<tr onclick="fill_song_modal(this)">');
         for (var columnIndex = 0; columnIndex < Object.keys(columns).length; columnIndex++)
         {
             var cell_data = data_object[index][ Object.keys(columns)[columnIndex] ];
-            row.append( $('<td>').text( cell_data ).data("object", data_object[index]) );
+            row.append( $(`<td id=${Object.keys(columns)[columnIndex]}-${index}>`).text( cell_data ).data("object", data_object[index]) );
         }
-        console.log(row)
         body.append(row);
     }
 }
