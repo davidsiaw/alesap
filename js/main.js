@@ -1,8 +1,25 @@
-var akey
-var skey
-var scd
+// initialize globals
+var akey = '';
+var skey = '';
+var scd  = '';
 
-function onScanSuccess(qr_value) {
+function startup()
+{
+  $(window).keydown(function(event){
+    if(event.keyCode == 13) {
+      start_search()
+      event.preventDefault();
+      return false;
+    }
+  });
+
+  $("#textfield0").on("change", "", function() {
+    start_search()
+  });
+}
+
+function onScanSuccess(qr_value)
+{
     [akey, skey, scd] = qr_value.split('/')[2].split(',')
     alert("akey: " + akey + "\nskey: " + skey + "\nscd: " + scd)
     $('#scan_qr').modal('hide');
