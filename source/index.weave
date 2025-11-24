@@ -57,7 +57,7 @@ empty_page '', 'Pasela Search', theme: :dark do
         end
     end
 
-    table_from_source "something.json" do
+    table_from_source "empty.json" do
         columns.each do |name, title|
             column name.to_s, title: title
         end

@@ -8,6 +8,7 @@ rm -rf build
 mkdir -p build/weaver
 sleep 2
 bundle exec weaver build --root=alesap.astrobunny.net
+rm -rf build/js/MathJax
 mv gitbak build/.git
 cd build
 echo alesap.astrobunny.net > CNAME
