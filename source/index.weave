@@ -2,9 +2,8 @@ empty_page '', 'Pasela Search', theme: :dark do
     request_js 'js/main.js'
     request_js 'js/scan_qr.js'
     request_js 'js/html5-qrcode.min.js'
-
-    request_js 'https://cdn.jsdelivr.net/npm/toastify-js'
-    request_css 'https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css'
+    request_js 'js/toastify.js'
+    request_css 'css/toastify.min.css'
 
     set_favicon_path 'images/favicon.ico'
 
@@ -38,6 +37,10 @@ empty_page '', 'Pasela Search', theme: :dark do
 
     block_button "Scan QR Code" do
         script "$('#scan_qr').modal('show'); scan_qr();"
+    end
+
+    block_button "Leave Room" do
+        script "update_status('disconnected');"
     end
 
     h1 "Pasela Search"
