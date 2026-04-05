@@ -22,92 +22,6 @@ function startup()
     }
 }
 
-// handles clicking items in the search results
-function fill_song_modal(song)
-{
-    $("#song_modal").modal("show");
-    var song = $(song).children("td");
-
-    var song_code = '';
-    for(var i = 0; i < song.length; i++) {
-        var attribute = song[i].id.split('-')[0];
-        if (attribute === "code") {
-            song_code = song[i].innerText;
-        }
-        
-        if (attribute != "extra") {
-            $(`#${attribute}-modal`).text(song[i].innerText);
-        }
-    }
-
-    $(`#extra-modal`).text(JSON.stringify(song_cache[song_code]));
-
-}
-
-function start_search()
-{
-    var search_string = $("#textfield0").val();
-    console.log(search_string)
-
-    $.ajax({
-        type: "POST",
-        url: API_URL + "/api/v1/command/search/",
-        data: JSON.stringify({
-            str: search_string
-        }),
-        contentType: "application/json; charset=utf-8"
-
-    }).then(function(data) {
-        console.log(data.results);
-        clear();
-        append_table(data.results[0]);
-    })
-}
-
-function get_form0_object()
-{
-    var object = {}
-    object["search"] = $('#textfield0').val();
-
-    return object;
-}
-
-function clear()
-{
-    var body = $("#dyn_table0_body");
-    body.empty();
-}
-
-// helper function to display search results
-function append_table(data)
-{
-    var query_object = {};
-    var data_object = {};
-
-    if (data !== null && typeof data === 'object') {
-        data_object = data;
-    } else {
-        data_object = data;
-    }
-
-    var body = $("#dyn_table0_body")
-    var columns = getcolumns();
-
-    for (var index in data_object) {
-        // Add the song to the song cache
-        var song_data = data_object[index];
-        song_cache[song_data['code']] = song_data;
-
-        var row = $('<tr onclick="fill_song_modal(this)">');
-        for (var columnIndex = 0; columnIndex < Object.keys(columns).length; columnIndex++)
-        {
-            var cell_data = data_object[index][ Object.keys(columns)[columnIndex] ];
-            row.append( $(`<td id=${Object.keys(columns)[columnIndex]}-${index}>`).text( cell_data ).data("object", data_object[index]) );
-        }
-        body.append(row);
-    }
-}
-
 // handles search functionality and displaying results
 function start_search()
 {
@@ -120,10 +34,48 @@ function start_search()
             str: search_string
         }),
         contentType: "application/json; charset=utf-8"
+
     }).then(function(data) {
         $("#dyn_table0_body").empty();
         append_table(data.results[0]);
     })
+}
+
+// helper function to display search results
+function append_table(data)
+{
+    for (var index in data) {
+        // add song to cache
+        song_cache[data[index]['code']] = data[index];
+
+        var song_code = data[index]['code'];
+        var song = song_cache[song_code]['song'];
+        if (song_cache[song_code]['extra']['content_type'] != null) {
+            song += "【"
+            song += song_cache[song_code]['extra']['content_type'];
+            song += "】"
+        }
+        var artist = song_cache[song_code]['artist'];
+
+        var row = $('<tr onclick="fill_song_modal(this)">');
+        row.append( $(`<td id=song-${index}>`).text(song).data("object", data[index]) );
+        row.append( $(`<td id=artist-${index}>`).text(artist).data("object", data[index]) );
+        row.append( $(`<td id=code-${index}>`).text(song_code).data("object", data[index]) );
+        $("#dyn_table0_body").append(row);
+    }
+}
+
+// handles clicking items in the search results
+function fill_song_modal(song)
+{
+    $("#song_modal").modal("show");
+    // extract song code from DOM based on selection
+    var song_code = $(song).children("td")[2].innerText;
+
+    $('#song-modal').text(song_cache[song_code]['song']);
+    $('#artist-modal').text(song_cache[song_code]['artist']);
+    $('#code-modal').text(song_cache[song_code]['code']);
+    $('#extra-modal').text(JSON.stringify(song_cache[song_code]));
 }
 
 // handles adding songs to the queue
