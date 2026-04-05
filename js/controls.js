@@ -78,17 +78,17 @@ function toggle_debug()
 {
     if (sessionStorage.getItem('debug_mode') == null) {
         sessionStorage.setItem('debug_mode', true);
-        Toastify({
-            text: `Debug Mode Enabled`,
-            duration: 3000,
-            position: "center",
-        }).showToast();
+        $('#debug-div').css("display", "block");
+        $('#debugging-info').append("Session Storage:</br>");
+        $('#debugging-info').append(JSON.stringify(sessionStorage, null, 2));
     } else {
         sessionStorage.removeItem('debug_mode');
-        Toastify({
-            text: `Debug Mode Disabled`,
-            duration: 3000,
-            position: "center",
-        }).showToast();
+        $('#debug-div').css("display", "none");
+        $('#debugging-info').empty();
     }
 }
+
+// disables debug mode on reload
+window.addEventListener('beforeunload', () => {
+    sessionStorage.removeItem('debug_mode');
+});

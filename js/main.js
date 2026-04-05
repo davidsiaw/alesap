@@ -44,9 +44,11 @@ function start_search()
         contentType: "application/json; charset=utf-8"
 
     }).then(function(data) {
-        $("#dyn_table0_body").empty();
+        $("#song_table_body").empty();
         append_table(data.results[0]);
     })
+
+    $("#song_table").css("display", "");
 }
 
 // helper function to display search results
@@ -64,7 +66,7 @@ function append_table(data)
         row.append( $(`<td>`).text(song).data("object", data[index]) );
         row.append( $(`<td>`).text(artist).data("object", data[index]) );
         row.append( $(`<td>`).text(song_code).data("object", data[index]) );
-        $("#dyn_table0_body").append(row);
+        $("#song_table_body").append(row);
     }
 }
 

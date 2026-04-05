@@ -87,22 +87,15 @@ async function scan_success(decodedText, decodedResult)
 function update_status(status)
 {
     if (status == "connected" && session_is_active()) {
-        $('.widget').removeClass('red-bg');
-        $('.widget').addClass('navy-bg');
+        $($('#info-widget').children()[0]).removeClass('red-bg');
+        $($('#info-widget').children()[0]).addClass('navy-bg');
         $('#connected').text("Connected at " + sessionStorage.getItem('connected_at'));
-        $('#keys').empty();
-        if(sessionStorage.getItem('debug_mode')) {
-            $('#keys').append(`<br/>akey: ${sessionStorage.getItem('akey')}`);
-            $('#keys').append(`<br/>skey: ${sessionStorage.getItem('skey')}`);
-            $('#keys').append(`<br/>scd: ${sessionStorage.getItem('scd')}`);
-        }
         $('#leave-room').css("display", "block");
     } else if (status == "disconnected" && session_is_active()) {
         sessionStorage.clear();
-        $('.widget').removeClass('navy-bg');
-        $('.widget').addClass('red-bg');
+        $($('#info-widget').children()[0]).removeClass('navy-bg');
+        $($('#info-widget').children()[0]).addClass('red-bg');
         $('#connected').text("Not Connected");
-        $('#keys').empty();
         $('#leave-room').css("display", "none");
     }
 }
