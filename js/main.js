@@ -1,3 +1,11 @@
+/*
+ * +------------------------------------------------------------
+ * | main.js
+ * +------------------------------------------------------------
+ * | primary frontend logic of the application
+ * +------------------------------------------------------------
+ */
+
 // just a cache of songs keyed by their song code (1234A56)
 // with all the relevant info
 var song_cache = {}
@@ -52,7 +60,7 @@ function append_table(data)
         var song = normalize_song(song_code);
         var artist = song_cache[song_code]['artist'];
 
-        var row = $('<tr onclick="fill_song_modal(this)">');
+        var row = $(`<tr id=${song_code} onclick="fill_song_modal(this)">`);
         row.append( $(`<td>`).text(song).data("object", data[index]) );
         row.append( $(`<td>`).text(artist).data("object", data[index]) );
         row.append( $(`<td>`).text(song_code).data("object", data[index]) );
@@ -65,9 +73,7 @@ function normalize_song(song_code) {
     var song = song_cache[song_code]['song'];
     if (song_cache[song_code]['extra']['content_type'] != null) {
         if(!song.toLowerCase().includes(song_cache[song_code]['extra']['content_type'].toLowerCase())) {
-            song += "【"
-            song += song_cache[song_code]['extra']['content_type'];
-            song += "】"
+            song += "【" + song_cache[song_code]['extra']['content_type'] + "】"
         }
     }
     return song;
@@ -77,13 +83,12 @@ function normalize_song(song_code) {
 function fill_song_modal(song)
 {
     $("#song_modal").modal("show");
-    // extract song code from DOM based on selection
-    var song_code = $(song).children("td")[2].innerText;
+    var song_code = $(song).attr('id');
 
-    $('#song-modal-title').text(song_cache[song_code]['song']);
+    $('#song-modal-title').text(normalize_song(song_code));
 
     let song_modal_content = "";
-    song_modal_content += "<p><b>Title:</b></br>" + normalize_song(song_code) + "</p>";
+    song_modal_content += "<p><b>Title:</b></br>" + $('#song-modal-title').text() + "</p>";
     song_modal_content += "<p><b>Artist:</b></br>" + song_cache[song_code]['artist'] + "</p>";
     if (song_cache[song_code]['extra']['tie_up'] != null) {
         song_modal_content += "<p><b>Franchise:</b></br>" + song_cache[song_code]['extra']['tie_up'] + "</p>";
@@ -96,91 +101,4 @@ function fill_song_modal(song)
     }
 
     $('#song-modal-body').html(song_modal_content);
-}
-
-// handles adding songs to the queue
-function queue_song(song, artist, code)
-{
-    if (session_is_active()) {
-        $.ajax({
-            type: "POST",
-            url: API_URL + "/api/v1/command/queue/",
-            data: JSON.stringify({
-                akey: sessionStorage.getItem('akey'),
-                skey: sessionStorage.getItem('skey'),
-                scd: sessionStorage.getItem('scd'),
-                ecd: code
-            }),
-            contentType: "application/json; charset=utf-8"
-        }).then(function(data) {
-            $('#song_modal').modal('hide');
-            Toastify({
-                text: `Queued ${artist}: ${song}`,
-                duration: 3000,
-                position: "center"
-            }).showToast();
-        })
-    } else {
-        $('#song_modal').modal('hide');
-        Toastify({
-            text: `Not connected`,
-            duration: 3000,
-            position: "center",
-            style: {
-                background: "#ed5565",
-            }
-        }).showToast();
-    }
-}
-
-// handles stopping the current song in the queue
-function stop_song()
-{
-    if (session_is_active()) {
-        $.ajax({
-            type: "POST",
-            url: API_URL + "/api/v1/command/stop/",
-            data: JSON.stringify({
-                akey: sessionStorage.getItem('akey'),
-                skey: sessionStorage.getItem('skey'),
-                scd: sessionStorage.getItem('scd'),
-            }),
-            contentType: "application/json; charset=utf-8"
-        }).then(function(data) {
-            Toastify({
-                text: `Sent stop request`,
-                duration: 3000,
-                position: "center"
-            }).showToast();
-        })
-    } else {
-        $('#song_modal').modal('hide');
-        Toastify({
-            text: `Not connected`,
-            duration: 3000,
-            position: "center",
-            style: {
-                background: "#ed5565",
-            }
-        }).showToast();
-    }
-}
-
-function toggle_debug()
-{
-    if (sessionStorage.getItem('debug_mode') == null) {
-        sessionStorage.setItem('debug_mode', true);
-        Toastify({
-            text: `Debug Mode Enabled`,
-            duration: 3000,
-            position: "center",
-        }).showToast();
-    } else {
-        sessionStorage.removeItem('debug_mode');
-        Toastify({
-            text: `Debug Mode Disabled`,
-            duration: 3000,
-            position: "center",
-        }).showToast();
-    }
 }
