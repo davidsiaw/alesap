@@ -95,12 +95,14 @@ function update_status(status)
             $('#keys').append(`<br/>skey: ${sessionStorage.getItem('skey')}`);
             $('#keys').append(`<br/>scd: ${sessionStorage.getItem('scd')}`);
         }
+        $('#leave-room').css("display", "block");
     } else if (status == "disconnected" && session_is_active()) {
         sessionStorage.clear();
         $('.widget').removeClass('navy-bg');
         $('.widget').addClass('red-bg');
         $('#connected').text("Not Connected");
         $('#keys').empty();
+        $('#leave-room').css("display", "none");
     }
 }
 
