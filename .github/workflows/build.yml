@@ -17,7 +17,7 @@ jobs:
           ssh-private-key: ${{ secrets.DEPLOYKEY }}
     - name: push master
       env:
-        API_URL: ${{ secrets.GIT_USER_NAME }}
+        API_URL: ${{ secrets.API_URL }}
         GIT_USER_NAME: ${{ secrets.GIT_USER_NAME }}
         GIT_EMAIL: ${{ secrets.GIT_EMAIL }}
         FRONTEND_ROOT: ${{ secrets.FRONTEND_ROOT }}
