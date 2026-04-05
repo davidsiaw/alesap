@@ -114,7 +114,12 @@ empty_page '', 'Pasela Search', theme: :dark do
         end
 
         tab "Info" do
-            small "Created by <a href='https://github.com/davidsiaw/alesap-server'>astrobunny</a> and <a href='https://github.com/blankaex/alesap'>Blankaex</a>"
+            div do
+                small "Created by <a href='https://github.com/davidsiaw/alesap-server'>astrobunny</a> and <a href='https://github.com/blankaex/alesap'>Blankaex</a>"
+            end
+            div style: "margin-top: 10px;" do
+                small "Official search: <a href='https://karaoke.mashup.jp/search.php'>karaoke.mashup.jp</a>"
+            end
         end
     end
 
