@@ -68,7 +68,7 @@ async function scan_success(decodedText, decodedResult)
             duration: 3000,
             position: "center",
             style: {
-                background: "red",
+                background: "#ed5565",
             }
         }).showToast();
         toast_id = setTimeout(() => { toast_id = null; }, 3000);
@@ -82,9 +82,11 @@ function update_status(status)
         $('.widget').addClass('navy-bg');
         $('#connected').text("Connected at " + new Date().toLocaleString('ja-JP'));
         $('#keys').empty();
-        $('#keys').append(`<br/>akey: ${sessionStorage.getItem('akey')}`);
-        $('#keys').append(`<br/>skey: ${sessionStorage.getItem('skey')}`);
-        $('#keys').append(`<br/>scd: ${sessionStorage.getItem('scd')}`);
+        if(sessionStorage.getItem('debug_mode')) {
+            $('#keys').append(`<br/>akey: ${sessionStorage.getItem('akey')}`);
+            $('#keys').append(`<br/>skey: ${sessionStorage.getItem('skey')}`);
+            $('#keys').append(`<br/>scd: ${sessionStorage.getItem('scd')}`);
+        }
     } else if (status == "disconnected" && session_is_active()) {
         sessionStorage.clear();
         $('.widget').removeClass('navy-bg');

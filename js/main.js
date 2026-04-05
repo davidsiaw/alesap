@@ -107,7 +107,7 @@ function queue_song(song, artist, code)
             duration: 3000,
             position: "center",
             style: {
-                background: "red",
+                background: "#ed5565",
             }
         }).showToast();
     }
@@ -140,8 +140,27 @@ function stop_song()
             duration: 3000,
             position: "center",
             style: {
-                background: "red",
+                background: "#ed5565",
             }
+        }).showToast();
+    }
+}
+
+function toggle_debug()
+{
+    if (sessionStorage.getItem('debug_mode') == null) {
+        sessionStorage.setItem('debug_mode', true);
+        Toastify({
+            text: `Debug Mode Enabled`,
+            duration: 3000,
+            position: "center",
+        }).showToast();
+    } else {
+        sessionStorage.removeItem('debug_mode');
+        Toastify({
+            text: `Debug Mode Disabled`,
+            duration: 3000,
+            position: "center",
         }).showToast();
     }
 }

@@ -86,6 +86,10 @@ empty_page '', 'Pasela Search', theme: :dark do
         script "stop_song();"
     end
 
+    block_button nil, "Debug Mode", style: "alert" do
+        script "toggle_debug(); update_status('connected');"
+    end
+
     column_hash = columns.each_with_index.map do |(name, title),i|
         "#{name}: #{i}"
     end.join(", ")
