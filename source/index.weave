@@ -39,7 +39,7 @@ empty_page '', 'Pasela Search', theme: :dark do
         script "$('#scan_qr').modal('show'); scan_qr();"
     end
 
-    block_button "Leave Room" do
+    block_button "Leave Room", css_style: 'display: none;' do
         script "update_status('disconnected');"
     end
 
