@@ -28,6 +28,11 @@ function startup()
     if (session_is_active()) {
         update_status("connected");
     }
+
+    // disables debug mode on reload
+    window.addEventListener('beforeunload', () => {
+        sessionStorage.removeItem('debug_mode');
+    });
 }
 
 // handles search functionality and displaying results

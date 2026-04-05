@@ -87,8 +87,3 @@ function toggle_debug()
         $('#debugging-info').empty();
     }
 }
-
-// disables debug mode on reload
-window.addEventListener('beforeunload', () => {
-    sessionStorage.removeItem('debug_mode');
-});
