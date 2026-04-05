@@ -82,7 +82,7 @@ empty_page '', 'Pasela Search', theme: :dark do
         end
     end
 
-    block_button nil, "Stop Playback" do
+    block_button nil, "Stop Playback", style: "danger" do
         script "stop_song();"
     end
 
