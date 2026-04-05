@@ -40,8 +40,8 @@ function fill_song_modal(song)
         }
     }
 
-
     $(`#extra-modal`).text(JSON.stringify(song_cache[song_code]));
+
 }
 
 function start_search()
@@ -129,45 +129,86 @@ function start_search()
 // handles adding songs to the queue
 function queue_song(song, artist, code)
 {
-    $.ajax({
-        type: "POST",
-        // TODO: needs to be implemented in backend
-        url: API_URL + "/api/v1/command/queue/",
-        data: JSON.stringify({
-            akey: sessionStorage.getItem('akey'),
-            skey: sessionStorage.getItem('skey'),
-            scd: sessionStorage.getItem('scd'),
-            ecd: code
-        }),
-        contentType: "application/json; charset=utf-8"
-    }).then(function(data) {
+    if (session_is_active()) {
+        $.ajax({
+            type: "POST",
+            url: API_URL + "/api/v1/command/queue/",
+            data: JSON.stringify({
+                akey: sessionStorage.getItem('akey'),
+                skey: sessionStorage.getItem('skey'),
+                scd: sessionStorage.getItem('scd'),
+                ecd: code
+            }),
+            contentType: "application/json; charset=utf-8"
+        }).then(function(data) {
+            $('#song_modal').modal('hide');
+            Toastify({
+                text: `Queued ${artist}: ${song}`,
+                duration: 3000,
+                position: "center"
+            }).showToast();
+        })
+    } else {
         $('#song_modal').modal('hide');
         Toastify({
-            text: `Queued ${artist}: ${song}`,
+            text: `Not connected`,
             duration: 3000,
-            position: "center"
+            position: "center",
+            style: {
+                background: "#ed5565",
+            }
         }).showToast();
-    })
+    }
 }
 
 // handles stopping the current song in the queue
 function stop_song()
 {
-    $.ajax({
-        type: "POST",
-        // TODO: needs to be implemented in backend
-        url: API_URL + "/api/v1/command/stop/",
-        data: JSON.stringify({
-            akey: sessionStorage.getItem('akey'),
-            skey: sessionStorage.getItem('skey'),
-            scd: sessionStorage.getItem('scd'),
-        }),
-        contentType: "application/json; charset=utf-8"
-    }).then(function(data) {
+    if (session_is_active()) {
+        $.ajax({
+            type: "POST",
+            url: API_URL + "/api/v1/command/stop/",
+            data: JSON.stringify({
+                akey: sessionStorage.getItem('akey'),
+                skey: sessionStorage.getItem('skey'),
+                scd: sessionStorage.getItem('scd'),
+            }),
+            contentType: "application/json; charset=utf-8"
+        }).then(function(data) {
+            Toastify({
+                text: `Sent stop request`,
+                duration: 3000,
+                position: "center"
+            }).showToast();
+        })
+    } else {
+        $('#song_modal').modal('hide');
         Toastify({
-            text: `Sent stop request`,
+            text: `Not connected`,
             duration: 3000,
-            position: "center"
+            position: "center",
+            style: {
+                background: "#ed5565",
+            }
         }).showToast();
-    })
+    }
+}
+
+function toggle_debug()
+{
+    if (sessionStorage.getItem('debug_mode') == null) {
+        sessionStorage.setItem('debug_mode', true);
+        Toastify({
+            text: `Debug Mode Enabled`,
+            duration: 3000,
+            position: "center",
+        }).showToast();
+    } else {
+        sessionStorage.removeItem('debug_mode');
+        Toastify({
+            text: `Debug Mode Disabled`,
+            duration: 3000,
+            position: "center",
+        }).showToast();
+    }
 }
