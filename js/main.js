@@ -51,9 +51,11 @@ function append_table(data)
         var song_code = data[index]['code'];
         var song = song_cache[song_code]['song'];
         if (song_cache[song_code]['extra']['content_type'] != null) {
-            song += "【"
-            song += song_cache[song_code]['extra']['content_type'];
-            song += "】"
+            if(!song.toLowerCase().includes(song_cache[song_code]['extra']['content_type'].toLowerCase())) {
+                song += "【"
+                song += song_cache[song_code]['extra']['content_type'];
+                song += "】"
+            }
         }
         var artist = song_cache[song_code]['artist'];
 
