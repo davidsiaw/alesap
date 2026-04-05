@@ -1,3 +1,4 @@
+// loads elements on page start
 function startup()
 {
     $(window).keydown(function(event) {
@@ -12,17 +13,24 @@ function startup()
         start_search()
     });
 
-    // create test data
-    clear();
-    append_table([{song: "test_song", code: "test_code", artist: "test_artist"}]);
+    if (session_is_active()) {
+        update_status("connected");
+    }
 }
 
+// handles clicking items in the search results
 function fill_song_modal(song)
 {
     $("#song_modal").modal("show");
     var song = $(song).children("td");
     for(var i = 0; i < song.length; i++) {
-        $(`#${song[i].id.split('-')[0]}-modal`).text(song[i].innerText);
+        var attribute = song[i].id.split('-')[0];
+        if (attribute != "extra") {
+            $(`#${attribute}-modal`).text(song[i].innerText);
+        } else {
+            // do any conditional text formatting here then just set the value below
+            $(`#extra-modal`).text("None");
+        }
     }
 }
 
@@ -60,6 +68,7 @@ function clear()
     body.empty();
 }
 
+// helper function to display search results
 function append_table(data)
 {
     var query_object = {};
@@ -83,4 +92,68 @@ function append_table(data)
         }
         body.append(row);
     }
+}
+
+// handles search functionality and displaying results
+function start_search()
+{
+    var search_string = $("#textfield0").val();
+
+    $.ajax({
+        type: "POST",
+        url: "https://api.alesap.astrobunny.net/api/v1/command/search/",
+        data: JSON.stringify({
+            str: search_string
+        }),
+        contentType: "application/json; charset=utf-8"
+    }).then(function(data) {
+        $("#dyn_table0_body").empty();
+        append_table(data.results[0]);
+    })
+}
+
+// handles adding songs to the queue
+function queue_song(song, artist, code)
+{
+    $.ajax({
+        type: "POST",
+        // TODO: needs to be implemented in backend
+        url: "https://api.alesap.astrobunny.net/api/v1/command/queue/",
+        data: JSON.stringify({
+            akey: sessionStorage.getItem('akey'),
+            skey: sessionStorage.getItem('skey'),
+            scd: sessionStorage.getItem('scd'),
+            ecd: code
+        }),
+        contentType: "application/json; charset=utf-8"
+    }).then(function(data) {
+        $('#song_modal').modal('hide');
+        Toastify({
+            text: `Queued ${artist}: ${song}`,
+            duration: 3000,
+            position: "center"
+        }).showToast();
+    })
+}
+
+// handles stopping the current song in the queue
+function stop_song()
+{
+    $.ajax({
+        type: "POST",
+        // TODO: needs to be implemented in backend
+        url: "https://api.alesap.astrobunny.net/api/v1/command/stop/",
+        data: JSON.stringify({
+            akey: sessionStorage.getItem('akey'),
+            skey: sessionStorage.getItem('skey'),
+            scd: sessionStorage.getItem('scd'),
+        }),
+        contentType: "application/json; charset=utf-8"
+    }).then(function(data) {
+        Toastify({
+            text: `Sent stop request`,
+            duration: 3000,
+            position: "center"
+        }).showToast();
+    })
 }
