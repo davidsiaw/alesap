@@ -30,14 +30,7 @@ function queue_song(song_code)
         })
     } else {
         $('#song_modal').modal('hide');
-        Toastify({
-            text: `Not connected`,
-            duration: 3000,
-            position: "center",
-            style: {
-                background: "#ed5565",
-            }
-        }).showToast();
+        err_not_connected();
     }
 }
 
@@ -62,15 +55,7 @@ function stop_song()
             }).showToast();
         })
     } else {
-        $('#song_modal').modal('hide');
-        Toastify({
-            text: "Not connected",
-            duration: 3000,
-            position: "center",
-            style: {
-                background: "#ed5565",
-            }
-        }).showToast();
+        err_not_connected();
     }
 }
 
@@ -103,4 +88,15 @@ function toggle_debug()
         $('#debug-div').css("display", "none");
         $('#debugging-info').empty();
     }
+}
+
+function err_not_connected() {
+    Toastify({
+        text: "Not connected",
+        duration: 3000,
+        position: "center",
+        style: {
+            background: "#ed5565",
+        }
+    }).showToast();
 }

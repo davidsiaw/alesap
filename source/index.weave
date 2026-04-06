@@ -81,7 +81,7 @@ empty_page '', 'Pasela Search', theme: :dark do
                 "#{name}: #{i}"
             end.join(", ")
 
-            normal_button nil, "Stop Playback", style: "danger" do
+            normal_button nil, "Stop Playback", id: "stop-playback", style: "danger" do
                 script "stop_song();"
             end
         end
@@ -123,7 +123,7 @@ empty_page '', 'Pasela Search', theme: :dark do
         end
     end
 
-    outline_button "Scan QR Code", css_style: 'display:block; width: 100%; margin: 6px 0px 6px 0px;' do
+    outline_button "Scan QR Code", id: "scan-qr", css_style: 'display:block; width: 100%; margin: 6px 0px 6px 0px;' do
         script "$('#scan_qr').modal('show'); scan_qr();"
     end
 
