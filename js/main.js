@@ -46,13 +46,11 @@ function startup()
 // handles search functionality and displaying results
 function start_search()
 {
-    var search_string = $("#search-field").val();
-
     $.ajax({
         type: "POST",
         url: API_URL + "/api/v1/command/search/",
         data: JSON.stringify({
-            str: search_string
+            str: $("#search-field").val()
         }),
         contentType: "application/json; charset=utf-8"
     }).then(function(data) {
@@ -64,16 +62,15 @@ function start_search()
             // append song to song table
             append_table("#song_table_body", results[index]['code']);
         }
+        // unhide song table
+        $("#song_table").css("display", "");
     })
-
-    //unhide song table
-    $("#song_table").css("display", "");
 }
 
-// helper function to display search results
+// helper function to add songs to tables
 function append_table(table_body, song_code)
 {
-    var row = $(`<tr id=${isong_code} onclick="fill_song_modal(this)">`);
+    var row = $(`<tr id=${song_code} onclick="fill_song_modal(this)">`);
     row.append($(`<td>`).text(normalize_song(song_code)));
     row.append($(`<td>`).text(song_cache[song_code]['artist']));
     row.append($(`<td>`).text(song_code));
