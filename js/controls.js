@@ -42,6 +42,7 @@ function queue_song(song_code)
     }
 }
 
+// queues a random song from the song history
 function queue_random() {
     const song_history = JSON.parse(localStorage.getItem('song_history'));
     queue_song(song_history[Math.floor(Math.random() * song_history.length)]['code']);
@@ -72,6 +73,7 @@ function stop_song()
     }
 }
 
+// enable/disable debugging mode
 function toggle_debug()
 {
     if (sessionStorage.getItem('debug_mode') == null) {
@@ -89,6 +91,7 @@ function toggle_debug()
     }
 }
 
+// formats localStorage data
 function parse_local_storage() {
     var local_storage = {};
     Object.keys(localStorage).forEach(key => {
@@ -102,6 +105,7 @@ function parse_local_storage() {
     return JSON.stringify(local_storage, null, 2);
 }
 
+// formats device info
 function parse_device_info() {
     const device_info = {
         userAgent: navigator.userAgent,
@@ -119,6 +123,8 @@ function parse_device_info() {
     return JSON.stringify(device_info, null, 2);
 }
 
+// error function when session not active
+// pulled out for extensibility
 function err_not_connected() {
     Toastify({
         text: "Not connected",

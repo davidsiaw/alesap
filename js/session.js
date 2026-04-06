@@ -10,6 +10,7 @@
 let reader = null;
 let toast_id = null;
 
+// enable camera and scan qr code
 function scan_qr()
 {
     if (!reader) reader = new Html5Qrcode("reader");
@@ -37,6 +38,7 @@ function scan_qr()
     });
 }
 
+// disable cameras and stop qr code reader
 async function stop_scanning()
 {
     if (reader && reader.getState() == Html5QrcodeScannerState.SCANNING) {
@@ -44,6 +46,7 @@ async function stop_scanning()
     }
 }
 
+// set which camera device should be used for scanning
 async function set_device(devices, config, scan_success)
 {
     // stop any running scanners
@@ -54,6 +57,7 @@ async function set_device(devices, config, scan_success)
     if (dev) await reader.start({ deviceId: { exact: dev.id } }, config, scan_success);
 }
 
+// callback that runs when qr code successfully scanned
 async function scan_success(decodedText, decodedResult)
 {
     try {
@@ -84,6 +88,7 @@ async function scan_success(decodedText, decodedResult)
     }
 }
 
+// helper function to change & display connection status to user
 function update_status(status)
 {
     if (status == "connected" && session_is_active()) {
@@ -100,6 +105,7 @@ function update_status(status)
     }
 }
 
+// helper function to check if session exists
 function session_is_active()
 {
     const a_key_set = sessionStorage.getItem('akey') !== null;
