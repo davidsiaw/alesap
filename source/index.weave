@@ -33,15 +33,13 @@ empty_page '', 'alesap.blankaex.reisen', theme: :dark do
                 end
             end
 
-            columns = {
-                song: "Title",
-                artist: "Artist",
-                code: "Code"
-            }
-
-            table_from_source "empty.json", id: "song_table", style: "display:none; margin-top: 20px;" do
-                columns.each do |name, title|
-                    column name.to_s, title: title
+            table striped: true, id: "song_table", style: "display:none; margin-top: 10px;" do
+                thead id: "song_table_head" do
+                    th { text "Title" }
+                    th { text "Artist" }
+                    th { text "Code" }
+                end
+                tbody id: "song_table_body" do
                 end
             end
 
@@ -53,7 +51,26 @@ empty_page '', 'alesap.blankaex.reisen', theme: :dark do
         end
 
         tab "History" do
-            p "👷 under construction"
+            div id: "empty-history", style: "text-align: center" do
+                jumbotron do
+                    p "No songs in history 🥺"
+                    h4 "Queue a song to get started"
+                end
+            end
+            div id: "history", style: "display: none;" do
+                block_button nil, "Queue random song" do
+                    script "queue_random();"
+                end
+                table striped: true, id: "history_table", style: "margin-top: 10px;" do
+                    thead id: "history_table_head" do
+                        th { text "Title" }
+                        th { text "Artist" }
+                        th { text "Code" }
+                    end
+                    tbody id: "history_table_body" do
+                    end
+                end
+            end
         end
 
         tab "Advanced" do
@@ -74,6 +91,12 @@ empty_page '', 'alesap.blankaex.reisen', theme: :dark do
             end
             ibox do
                 type :warning
+                block_button nil, "Clear localStorage", style: "warning" do
+                    script "localStorage.clear();"
+                end
+                block_button nil, "Clear sessionStorage", style: "warning" do
+                    script "sessionStorage.clear();"
+                end
                 title "Developer tools"
                 block_button nil, "Toggle Debug Mode", style: "warning" do
                     script "toggle_debug();"

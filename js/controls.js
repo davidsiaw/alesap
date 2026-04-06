@@ -27,11 +27,23 @@ function queue_song(song_code)
                 duration: 3000,
                 position: "center"
             }).showToast();
+            var song_cache = JSON.parse(localStorage.getItem('song_cache'));
+            var song_history = JSON.parse(localStorage.getItem('song_history')) ?? [];
+            song_history.push(song_cache[song_code]);
+            if (song_history.length > HISTORY_MAX_LENGTH) {
+                song_history.shift();
+            }
+            localStorage.setItem('song_history', JSON.stringify(song_history));
         })
     } else {
         $('#song_modal').modal('hide');
         err_not_connected();
     }
+}
+
+function queue_random() {
+    const song_history = JSON.parse(localStorage.getItem('song_history'));
+    queue_song(song_history[Math.floor(Math.random() * song_history.length)]['code']);
 }
 
 // handles stopping the current song in the queue
@@ -67,7 +79,16 @@ function toggle_debug()
         $('#debugging-info').append(`<p><b>Session Storage:</b></p>`);
         $('#debugging-info').append(`<pre>${JSON.stringify(sessionStorage, null, 2)}</pre>`);
         $('#debugging-info').append(`<p><b>Local Storage:</b></p>`);
-        $('#debugging-info').append(`<pre>${JSON.stringify(localStorage, null, 2)}</pre>`);
+        var local_storage_info = {};
+        Object.keys(localStorage).forEach(key => {
+            const value = localStorage.getItem(key);
+            try {
+                local_storage_info[key] = JSON.parse(value);
+            } catch (e) {
+                local_storage_info[key] = value;
+            }
+        });
+        $('#debugging-info').append(`<pre>${JSON.stringify(local_storage_info, null, 2)}</pre>`);
         const nav_data = {
             userAgent: navigator.userAgent,
             language: navigator.language,
