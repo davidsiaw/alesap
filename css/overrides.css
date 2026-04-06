@@ -5,3 +5,12 @@
 .btn-warning {
     color: #1e1e1e !important;
 }
+
+@media (max-width: 767px) {
+    .tabs-container .nav-tabs > li {
+        float: left !important;
+    }
+    .tabs-container .nav-tabs > li.active > a {
+        border-bottom: none !important;
+    }
+}
