@@ -51,7 +51,13 @@ empty_page '', 'alesap.blankaex.reisen', theme: :dark do
         end
 
         tab "History" do
-            table striped: true, id: "history_table" do
+            div id: "empty-history", style: "text-align: center" do
+                jumbotron do
+                    p "No songs in history 🥺"
+                    h4 "Queue a song to get started"
+                end
+            end
+            table striped: true, id: "history_table", style: "display: none;" do
                 thead id: "history_table_head" do
                     th { text "Title" }
                     th { text "Artist" }
@@ -80,6 +86,12 @@ empty_page '', 'alesap.blankaex.reisen', theme: :dark do
             end
             ibox do
                 type :warning
+                block_button nil, "Clear localStorage", style: "warning" do
+                    script "localStorage.clear();"
+                end
+                block_button nil, "Clear sessionStorage", style: "warning" do
+                    script "sessionStorage.clear();"
+                end
                 title "Developer tools"
                 block_button nil, "Toggle Debug Mode", style: "warning" do
                     script "toggle_debug();"

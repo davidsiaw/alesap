@@ -27,13 +27,13 @@ function queue_song(song_code)
                 duration: 3000,
                 position: "center"
             }).showToast();
+            var song_cache = JSON.parse(localStorage.getItem('song_cache'));
             var song_history = JSON.parse(localStorage.getItem('song_history')) ?? [];
             song_history.push(song_cache[song_code]);
             if (song_history.length > HISTORY_MAX_LENGTH) {
                 song_history.shift();
             }
             localStorage.setItem('song_history', JSON.stringify(song_history));
-            console.log(song_history);
         })
     } else {
         $('#song_modal').modal('hide');

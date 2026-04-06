@@ -31,6 +31,11 @@ function startup()
         update_status("connected");
     }
 
+    // add listener to populate song history
+    $('li a:contains("History")').on('click', function() {
+        fill_song_history();
+    });
+
     // clears forms on reload
     $(document).ready(function() {
         $('#form0')[0].reset(); 
@@ -58,7 +63,9 @@ function start_search()
         const results = data.results[0];
         for (var index in results) {
             // add song to cache
+            var song_cache = JSON.parse(localStorage.getItem('song_cache')) ?? {};
             song_cache[results[index]['code']] = results[index];
+            localStorage.setItem('song_cache', JSON.stringify(song_cache));
             // append song to song table
             append_table("#song_table_body", results[index]['code']);
         }
@@ -67,9 +74,26 @@ function start_search()
     })
 }
 
+// populates the song history
+function fill_song_history() {
+    if (localStorage.getItem("song_history") != null) {
+        song_history = JSON.parse(localStorage.getItem("song_history"));
+        $("#empty-history").css("display", "none");
+        $("#history_table").css("display", "");
+        $("#history_table_body").empty();
+        song_history.forEach(function(song) {
+            append_table("#history_table_body", song['code']);
+        });
+        // sort table in reverse chronological
+        var rows = $('#history_table_body tr').get().reverse();
+        $(rows).appendTo('#history_table_body');
+    }
+}
+
 // helper function to add songs to tables
 function append_table(table_body, song_code)
 {
+    const song_cache = JSON.parse(localStorage.getItem('song_cache'));
     var row = $(`<tr id=${song_code} onclick="fill_song_modal(this)">`);
     row.append($(`<td>`).text(normalize_song(song_code)));
     row.append($(`<td>`).text(song_cache[song_code]['artist']));
@@ -79,6 +103,7 @@ function append_table(table_body, song_code)
 
 // helper function to add additional song info to title
 function normalize_song(song_code) {
+    const song_cache = JSON.parse(localStorage.getItem('song_cache'));
     var song = song_cache[song_code]['song'];
     if (song_cache[song_code]['extra']['content_type'] != null) {
         if(!song.toLowerCase().includes(song_cache[song_code]['extra']['content_type'].toLowerCase())) {
@@ -93,6 +118,7 @@ function fill_song_modal(song)
 {
     $("#song_modal").modal("show");
     var song_code = $(song).attr('id');
+    const song_cache = JSON.parse(localStorage.getItem('song_cache')) ?? {};
 
     $('#song-modal-title').text(normalize_song(song_code));
 
@@ -104,7 +130,7 @@ function fill_song_modal(song)
     }
     song_modal_content += `<p><b>Code:</b></br><span id='current-song-code'>${song_code}</span></p>`;
 
-    if(sessionStorage.getItem('debug_mode')) {
+    if(localStorage.getItem('debug_mode')) {
         song_modal_content += "<hr><p><b>Debugging info:</b></p>";
         song_modal_content += `<pre>${JSON.stringify(song_cache[song_code], null, 2)}</pre>`;
     }
