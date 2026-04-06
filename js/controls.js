@@ -27,6 +27,7 @@ function queue_song(song_code)
                 duration: 3000,
                 position: "center"
             }).showToast();
+            // add successfully queued song to song history
             var song_cache = JSON.parse(localStorage.getItem('song_cache'));
             var song_history = JSON.parse(localStorage.getItem('song_history')) ?? [];
             song_history.push(song_cache[song_code]);
@@ -75,40 +76,47 @@ function toggle_debug()
 {
     if (sessionStorage.getItem('debug_mode') == null) {
         sessionStorage.setItem('debug_mode', true);
+        $('#debug-widget').css("display", "block");
         $('#debug-div').css("display", "block");
-        $('#debugging-info').append(`<p><b>Session Storage:</b></p>`);
-        $('#debugging-info').append(`<pre>${JSON.stringify(sessionStorage, null, 2)}</pre>`);
-        $('#debugging-info').append(`<p><b>Local Storage:</b></p>`);
-        var local_storage_info = {};
-        Object.keys(localStorage).forEach(key => {
-            const value = localStorage.getItem(key);
-            try {
-                local_storage_info[key] = JSON.parse(value);
-            } catch (e) {
-                local_storage_info[key] = value;
-            }
-        });
-        $('#debugging-info').append(`<pre>${JSON.stringify(local_storage_info, null, 2)}</pre>`);
-        const nav_data = {
-            userAgent: navigator.userAgent,
-            language: navigator.language,
-            languages: navigator.languages,
-            screenWidth: window.screen.width,
-            screenHeight: window.screen.height,
-            pixelRatio: window.devicePixelRatio,
-            platform: navigator.platform,
-            onLine: navigator.onLine,
-            cookieEnabled: navigator.cookieEnabled,
-            hardwareConcurrency: navigator.hardwareConcurrency,
-            deviceMemory: navigator.deviceMemory
-        };
-        $('#debugging-info').append(`<p><b>Device Info:</b></p>`);
-        $('#debugging-info').append(`<pre>${JSON.stringify(nav_data, null, 2)}</pre>`);
+        $('#debug-widget').css("display", "block");
+        $('#session-storage').text(JSON.stringify(sessionStorage, null, 2));
+        $('#local-storage').text(parse_local_storage());
+        $('#device-info').text(parse_device_info());
     } else {
         sessionStorage.removeItem('debug_mode');
+        $('#debug-widget').css("display", "none");
         $('#debug-div').css("display", "none");
-        $('#debugging-info').empty();
     }
+}
+
+function parse_local_storage() {
+    var local_storage = {};
+    Object.keys(localStorage).forEach(key => {
+        const value = localStorage.getItem(key);
+        try {
+            local_storage[key] = JSON.parse(value);
+        } catch (e) {
+            local_storage[key] = value;
+        }
+    });
+    return JSON.stringify(local_storage, null, 2);
+}
+
+function parse_device_info() {
+    const device_info = {
+        userAgent: navigator.userAgent,
+        language: navigator.language,
+        languages: navigator.languages,
+        screenWidth: window.screen.width,
+        screenHeight: window.screen.height,
+        pixelRatio: window.devicePixelRatio,
+        platform: navigator.platform,
+        onLine: navigator.onLine,
+        cookieEnabled: navigator.cookieEnabled,
+        hardwareConcurrency: navigator.hardwareConcurrency,
+        deviceMemory: navigator.deviceMemory
+    };
+    return JSON.stringify(device_info, null, 2);
 }
 
 function err_not_connected() {

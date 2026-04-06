@@ -2,7 +2,7 @@
     color: white !important;
 }
 
-.btn-warning, .panel-warning > .panel-heading {
+.btn-warning, .panel-warning > .panel-heading, div.widget.yellow-bg {
     color: #1e1e1e !important;
 }
 

@@ -102,10 +102,14 @@ function append_table(table_body, song_code)
 function normalize_song(song_code) {
     const song_cache = JSON.parse(localStorage.getItem('song_cache'));
     var song = song_cache[song_code]['song'];
-    if (song_cache[song_code]['extra']['content_type'] != null) {
-        if(!song.toLowerCase().includes(song_cache[song_code]['extra']['content_type'].toLowerCase())) {
-            song += `【${song_cache[song_code]['extra']['content_type']}】`;
-        }
+    if (
+        // check for extra info
+        song_cache[song_code]['extra']['content_type'] != null &&
+        // ignore if extra info already included in title
+        !song.toLowerCase().includes(song_cache[song_code]['extra']['content_type'].toLowerCase())
+    ) {
+        // append extra info to title
+        song += `【${song_cache[song_code]['extra']['content_type']}】`;
     }
     return song;
 }
@@ -119,7 +123,7 @@ function fill_song_modal(song)
 
     $('#song-modal-title').text(normalize_song(song_code));
 
-    let song_modal_content = "";
+    var song_modal_content = "";
     song_modal_content += `<p><b>Title:</b></br>${$('#song-modal-title').text()}</p>`;
     song_modal_content += `<p><b>Artist:</b></br>${song_cache[song_code]['artist']}</p>`;
     if (song_cache[song_code]['extra']['tie_up'] != null) {
@@ -127,7 +131,7 @@ function fill_song_modal(song)
     }
     song_modal_content += `<p><b>Code:</b></br><span id='current-song-code'>${song_code}</span></p>`;
 
-    if(localStorage.getItem('debug_mode')) {
+    if(sessionStorage.getItem('debug_mode')) {
         song_modal_content += "<hr><p><b>Debugging info:</b></p>";
         song_modal_content += `<pre>${JSON.stringify(song_cache[song_code], null, 2)}</pre>`;
     }
