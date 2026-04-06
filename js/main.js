@@ -13,6 +13,7 @@ var song_cache = {};
 // loads elements on page start
 function startup()
 {
+    // add listeners to search bar
     $(window).keydown(function(event) {
         if(event.keyCode == 13) {
             start_search()
@@ -20,14 +21,20 @@ function startup()
             return false;
         }
     });
-
     $("#search-field").on("change", "", function() {
         start_search()
     });
 
+    // checks if session is already active
     if (session_is_active()) {
         update_status("connected");
     }
+
+    // clears forms on reload
+    $(document).ready(function() {
+        $('#form0')[0].reset(); 
+        $('#form1')[0].reset(); 
+    });
 
     // disables debug mode on reload
     window.addEventListener('beforeunload', () => {

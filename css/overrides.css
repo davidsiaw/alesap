@@ -2,7 +2,7 @@
     color: white !important;
 }
 
-.btn-warning {
+.btn-warning, .panel-warning > .panel-heading {
     color: #1e1e1e !important;
 }
 
@@ -13,4 +13,8 @@
     .tabs-container .nav-tabs > li.active > a {
         border-bottom: none !important;
     }
+}
+
+input::placeholder {
+    opacity: 50% !important;
 }
