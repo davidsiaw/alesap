@@ -59,7 +59,7 @@ empty_page '', 'alesap.blankaex.reisen', theme: :dark do
             div id: "empty-history", style: "text-align: center" do
                 jumbotron do
                     p "No songs in history 🥺"
-                    h4 "Queue a song to get started"
+                    span  "Queue a song to get started"
                 end
             end
             div id: "history", style: "display: none;" do
@@ -161,7 +161,7 @@ empty_page '', 'alesap.blankaex.reisen', theme: :dark do
             end
         }
         footer do
-            normal_button "Close" do
+            block_button "Close" do
                 script "$('#scan_qr').modal('hide');"
             end
         end

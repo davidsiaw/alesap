@@ -6,6 +6,27 @@
     color: #1e1e1e !important;
 }
 
+.modal-content {
+    background-color: #1b1e35 !important;
+    border: 1px solid rgba(136, 142, 168, 0.5) !important;
+}
+
+.modal-body {
+    padding: 20px 30px 20px 30px;
+}
+
+.modal-header {
+    border-bottom: 1px solid rgba(136, 142, 168, 0.5) !important;
+}
+
+.modal-footer {
+    border-top: 1px solid rgba(136, 142, 168, 0.5) !important;
+}
+
+#selector {
+    margin-top: 10px !important;
+}
+
 @media (max-width: 767px) {
     .tabs-container .nav-tabs > li {
         float: left !important;
