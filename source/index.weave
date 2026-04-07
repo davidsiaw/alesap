@@ -183,6 +183,9 @@ empty_page '', 'alesap.blankaex.reisen', theme: :dark do
             block_button "Add to queue" do
                 script "queue_song($('#current-song-code').text())"
             end
+            normal_button :heart, "", style: "alert", id: "favourite-button" do
+                script "add_favourite($('#current-song-code').text());"
+            end
         end
     end
 
