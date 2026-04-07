@@ -27,23 +27,19 @@ function normalize_song(song_code) {
 function build_song_modal_data(song_code) {
     const song_cache = JSON.parse(localStorage.getItem('song_cache')) ?? {};
     const modal_data = [];
-    modal_data.push(
-        $('<p>').append($('<b>').text('Title:'), $('<br>'), $('#song-modal-title').text())
-    );
-    modal_data.push(
-        $('<p>').append($('<b>').text('Artist:'), $('<br>'), song_cache[song_code]['artist'])
-    );
+    modal_data.push($('<h4>').text('Title:'));
+    modal_data.push($('<p>').text($('#song-modal-title').text()));
+    modal_data.push($('<h4>').text('Artist:'));
+    modal_data.push($('<p>').text(song_cache[song_code]['artist']));
     if (song_cache[song_code]['extra']['tie_up'] != null) {
-        modal_data.push(
-            $('<p>').append($('<b>').text('Franchise:'), $('<br>'), song_cache[song_code]['extra']['tie_up'])
-        );
+        modal_data.push($('<h4>').text('Franchise:'));
+        modal_data.push($('<p>').text(song_cache[song_code]['extra']['tie_up']));
     }
-    modal_data.push(
-        $('<p>').append($('<b>').text('Code:'), $('<br>'), $('<span>').attr('id', 'current-song-code').text(song_code))
-    );
+    modal_data.push($('<h4>').text('Code:'));
+    modal_data.push($('<p>').attr('id', 'current-song-code').text(song_code));
     if (sessionStorage.getItem('debug_mode')) {
         modal_data.push($('<hr>'));
-        modal_data.push($('<p>').append($('<b>').text('Debugging info:')));
+        modal_data.push($('<h4>').text('Debugging info:'));
         modal_data.push($('<pre>').text(JSON.stringify(song_cache[song_code], null, 2)));
     }
     return modal_data;

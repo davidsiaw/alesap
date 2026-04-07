@@ -39,3 +39,13 @@
 input::placeholder {
     opacity: 50% !important;
 }
+
+#song-modal-body h4 {
+    font-size: 13px !important;
+    font-weight: bold !important;
+    margin-bottom: 3px !important;
+}
+
+#song-modal-body pre {
+    margin-top: 10px !important;
+}
