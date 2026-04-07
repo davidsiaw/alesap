@@ -50,6 +50,22 @@ function fill_song_history() {
     }
 }
 
+// append queued songs to the song history
+function append_history(song_code) {
+    let song_history = JSON.parse(localStorage.getItem('song_history')) ?? [];
+    const today = new Date();
+    song_history.push({
+        song_code: song_code,
+        last_played_date: today.toLocaleDateString('ja-JP'),
+        last_played_time: today.toLocaleTimeString('ja-JP')
+    });
+    if (song_history.length > HISTORY_MAX_LENGTH) {
+        song_history.shift();
+    }
+    localStorage.setItem('song_history', JSON.stringify(song_history));
+    fill_song_history();
+}
+
 // appends a single song row to a given table body element
 function append_table(table_body, song_code, last_played = null) {
     const song_cache = JSON.parse(localStorage.getItem('song_cache'));
