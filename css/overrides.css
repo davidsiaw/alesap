@@ -11,12 +11,34 @@ input::placeholder {
     opacity: 50% !important;
 }
 
+table {
+    margin-top: 10px !important;
+}
+
+thead {
+    border-bottom: 2px solid rgba(136, 142, 168, 0.5) !important;
+}
+
 .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
     color: white !important;
 }
 
 .btn-warning, .panel-warning > .panel-heading, div.widget.yellow-bg {
     color: #1e1e1e !important;
+}
+
+.widget h3 {
+    margin: 0px !important;
+}
+
+.jumbotron {
+    text-align: center !important;
+}
+
+.btn-outline {
+    display: block;
+    width: 100% !important;
+    margin: 6px 0px 6px 0px !important;
 }
 
 .modal-content {
@@ -41,14 +63,37 @@ input::placeholder {
     color: #FFF !important;
 }
 
+.camera-container {
+    width: 100%;
+}
+
+#reader {
+    border: 1px solid rgba(136, 142, 168, 0.5) !important;
+}
+
+#footer {
+    margin-top: 5px !important;
+}
+
 #selector-container {
     margin-top: 10px !important;
+}
+
+#song-modal-title {
+    text-transform: uppercase !important;
+    font-size: 15px !important;
+    font-weight: bold !important;
+    margin: 0px !important;
 }
 
 #song-modal-body h4 {
     font-size: 13px !important;
     font-weight: bold !important;
-    margin-bottom: 3px !important;
+    margin-bottom: 5px !important;
+}
+
+#song-modal-body p {
+    margin-left: 20px !important;
 }
 
 #song-modal-body pre {
