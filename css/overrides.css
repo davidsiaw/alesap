@@ -27,6 +27,10 @@ thead {
     color: #1e1e1e !important;
 }
 
+.panel-heading h5 {
+    margin: 0px !important;
+}
+
 .widget h3 {
     margin: 0px !important;
 }
