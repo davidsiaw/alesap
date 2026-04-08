@@ -20,25 +20,28 @@ empty_page "", "alesap.blankaex.reisen", theme: :dark do
     #
     # Content
     #
-    div id: "debug-widget", style: "display:none;" do
+    # TODO: weaver doesn't let you set ids/classes on widgets
+    div id: "debug-widget", style: "display: none;" do
         widget color: :yellow do
             h3 "🐞 Debugging Enabled"
         end
     end
 
-    # TODO: weaver doesn't let you set ids/classes on widgets
     tabs do
         tab "Search" do
+            h4 "Song search:"
             # TODO: investigate why setting wform id breaks
             wform do
-                # TODO: make these flexboxes
-                textfield "search", "Song search:", placeholder: "Type to start searching", id: "search-field"
-                submit "Search", block:true do
+                textfield "search", nil, placeholder: "Type to start searching", id: "search-field"
+                submit "Search", :search do
                     script "start_search();"
+                end
+                normal_button :stop, nil, id: "stop-playback", style: "danger" do
+                    script "stop_song();"
                 end
             end
 
-            table striped: true, id: "song-table", style: "display:none;" do
+            table striped: true, id: "song-table", style: "display: none;" do
                 thead id: "song-table-head" do
                     th { text "Title" }
                     th { text "Artist" }
@@ -47,12 +50,10 @@ empty_page "", "alesap.blankaex.reisen", theme: :dark do
                 tbody id: "song-table-body" do
                 end
             end
-
-            # TODO: review why this isn't full width
-            # some interaction with the table above creating <ul> .pagination
-            block_button nil, "Stop Playback", id: "stop-playback", style: "danger" do
-                script "stop_song();"
-            end
+            # TODO: some interaction with the table above creating <ul> .pagination
+            # block_button nil, "Stop Playback", id: "stop-playback", style: "danger" do
+            #     script "stop_song();"
+            # end
         end
 
         tab "Favourites" do
@@ -64,7 +65,7 @@ empty_page "", "alesap.blankaex.reisen", theme: :dark do
                 end
             end
             div id: "favourites", style: "display: none;" do
-                block_button nil, "I'm feeling lucky 🍀" do
+                block_button :refresh, "I'm feeling lucky" do
                     script "queue_random('favourites');"
                 end
                 table striped: true, id: "favourites-table" do
@@ -88,7 +89,7 @@ empty_page "", "alesap.blankaex.reisen", theme: :dark do
                 end
             end
             div id: "history", style: "display: none;" do
-                block_button nil, "I'm feeling lucky 🍀" do
+                block_button :refresh, "I'm feeling lucky" do
                     script "queue_random('history');"
                 end
                 table striped: true, id: "history-table" do
@@ -112,9 +113,10 @@ empty_page "", "alesap.blankaex.reisen", theme: :dark do
             ibox do
                 type :panel
                 title "Queue song by ID"
+                # TODO: weaver breaks when form ids contain - (changes function name)
                 wform do
                     textfield "ecd", nil, placeholder: "Song ID", id: "ecd-field"
-                    submit "Add to queue", block:true do
+                    submit "Add to queue", :search do
                         script "queue_song($('#ecd-field').val());"
                     end
                 end
@@ -131,7 +133,7 @@ empty_page "", "alesap.blankaex.reisen", theme: :dark do
                 block_button nil, "Toggle Debug Mode", style: "warning" do
                     script "toggle_debug();"
                 end
-                div id:"debug-div", style: "display: none;" do
+                div id: "debug-div", style: "display: none;" do
                     # TODO: feature request to weaver to enable click on .panel-heading
                     accordion do
                         tab "Device Info" do
@@ -151,17 +153,16 @@ empty_page "", "alesap.blankaex.reisen", theme: :dark do
 
     div id: "footer" do
         div id: "info-widget" do
-            widget color: :"red" do
+            widget color: :red do
                 h3 "Not Connected", id: "connected"
             end
         end
 
         div id: "button-container" do
-            block_button "Scan QR Code", id: "scan-qr" do
+            block_button :qrcode, "Scan QR Code", id: "scan-qr" do
                 script "$('#scan-modal').modal('show'); scan_qr();"
             end
-
-            block_button "Leave Room", id: "leave-room", css_style: "display: none" do
+            normal_button :unlink, nil, id: "leave-room", style: "danger", css_style: "display: none" do
                 script "update_status('disconnected');"
             end
         end
@@ -206,7 +207,7 @@ empty_page "", "alesap.blankaex.reisen", theme: :dark do
             block_button "Add to queue" do
                 script "queue_song($('#current-song-code').text())"
             end
-            normal_button :heart, "", style: "alert", id: "favourite-button" do
+            normal_button :heart, nil, style: "default", id: "favourite-button" do
                 script "add_favourite($('#current-song-code').text());"
             end
         end

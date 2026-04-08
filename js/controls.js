@@ -74,11 +74,13 @@ function add_favourite(song_code) {
     let favourites = JSON.parse(localStorage.getItem("favourites")) || [];
     // add to favourites
     if (!favourites.includes(song_code)) {
+        $("#favourite-button").removeClass("btn-default");
         $("#favourite-button").addClass("btn-danger");
         favourites.push(song_code);
     // remove from favourites
     } else {
         $("#favourite-button").removeClass("btn-danger");
+        $("#favourite-button").addClass("btn-default");
         favourites.splice(favourites.indexOf(song_code), 1);
     }
     localStorage.setItem("favourites", JSON.stringify(favourites));

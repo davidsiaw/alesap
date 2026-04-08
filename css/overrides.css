@@ -1,3 +1,8 @@
+/* hack to fix weaver quirk */
+.pagination {
+    display: none !important;
+}
+
 input::placeholder {
     opacity: 50% !important;
 }
@@ -8,6 +13,25 @@ table {
 
 thead {
     border-top: 1px solid rgba(136, 142, 168, 0.5) !important;
+}
+
+form {
+    display: flex !important;
+    gap: 5px !important;
+}
+
+form button {
+    display: inline-block;
+    height: 34px !important;
+    box-sizing: border-box;
+}
+
+form input, form select {
+    border-radius: 4px !important;
+}
+
+.form-group {
+    width: 100% !important;
 }
 
 .container {
@@ -52,6 +76,11 @@ thead {
 
 .btn {
     border-radius: 4px !important;
+}
+
+.btn-default {
+    background: #3b3f5c !important;
+    border: 0px !important;
 }
 
 .btn-warning, .panel-warning > .panel-heading, div.widget.yellow-bg {
@@ -117,10 +146,6 @@ thead {
     color: #FFF !important;
 }
 
-.camera-container {
-    width: 100%;
-}
-
 #debug-widget {
     margin: 6px 0px !important;
 }
@@ -145,6 +170,7 @@ thead {
 
 #reader {
     border: 1px solid rgba(136, 142, 168, 0.5) !important;
+    border-radius: 4px !important;
 }
 
 #selector-container {

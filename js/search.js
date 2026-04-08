@@ -120,8 +120,10 @@ function fill_song_modal(song) {
     // update ui based on favourite status
     const favourites = localStorage.getItem("favourites") || [];
     if (favourites.includes(song_code)) {
+        $("#favourite-button").removeClass("btn-default");
         $("#favourite-button").addClass("btn-danger");
     } else {
         $("#favourite-button").removeClass("btn-danger");
+        $("#favourite-button").addClass("btn-default");
     }
 }
