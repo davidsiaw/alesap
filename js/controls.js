@@ -25,7 +25,10 @@ function queue_song(song_code) {
             Toastify({
                 text: "Sent to queue",
                 duration: 3000,
-                position: "center"
+                position: "center",
+                style: {
+                    background: "#18a689",
+                }
             }).showToast();
             append_history(song_code);
         });
@@ -62,7 +65,10 @@ function stop_song() {
             Toastify({
                 text: "Sent stop request",
                 duration: 3000,
-                position: "center"
+                position: "center",
+                style: {
+                    background: "#ed5565",
+                }
             }).showToast();
         });
     } else {

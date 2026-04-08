@@ -147,7 +147,7 @@ form input, form select {
 }
 
 #debug-widget {
-    margin: 6px 0px !important;
+    margin-bottom: 6px !important;
 }
 
 #footer {
