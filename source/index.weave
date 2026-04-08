@@ -31,6 +31,7 @@ empty_page "", "alesap.blankaex.reisen", theme: :dark do
         tab "Search" do
             # TODO: investigate why setting wform id breaks
             wform do
+                # TODO: make these flexboxes
                 textfield "search", "Song search:", placeholder: "Type to start searching", id: "search-field"
                 submit "Search", block:true do
                     script "start_search();"
@@ -130,7 +131,7 @@ empty_page "", "alesap.blankaex.reisen", theme: :dark do
                 block_button nil, "Toggle Debug Mode", style: "warning" do
                     script "toggle_debug();"
                 end
-                div id:"debug-div", style: "display: none; margin-top: 10px;" do
+                div id:"debug-div", style: "display: none;" do
                     # TODO: feature request to weaver to enable click on .panel-heading
                     accordion do
                         tab "Device Info" do
@@ -155,7 +156,7 @@ empty_page "", "alesap.blankaex.reisen", theme: :dark do
             end
         end
 
-        div style: "display: flex; margin-top: 5px; justify-content: space-between" do
+        div id: "button-container" do
             block_button "Scan QR Code", id: "scan-qr" do
                 script "$('#scan-modal').modal('show'); scan_qr();"
             end
