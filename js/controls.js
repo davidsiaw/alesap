@@ -34,7 +34,14 @@ function queue_song(song_code) {
         });
     } else {
         $("#song-modal").modal("hide");
-        err_not_connected();
+        Toastify({
+            text: "Not connected",
+            duration: 3000,
+            position: "center",
+            style: {
+                background: "#ed5565",
+            }
+        }).showToast();
     }
 }
 
@@ -72,7 +79,14 @@ function stop_song() {
             }).showToast();
         });
     } else {
-        err_not_connected();
+        Toastify({
+            text: "Not connected",
+            duration: 3000,
+            position: "center",
+            style: {
+                background: "#ed5565",
+            }
+        }).showToast();
     }
 }
 

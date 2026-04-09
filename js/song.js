@@ -2,46 +2,128 @@
  * +------------------------------------------------------------
  * | song.js
  * +------------------------------------------------------------
- * | pure data formatting helpers for song objects retrieved
- * | from the cache; no DOM manipulation or API calls
+ * | handles song search API calls, rendering search results
+ * | and history tables, and populating the song detail modal
  * +------------------------------------------------------------
  */
 
-// appends extra content type info to a song title if not already present
-// appends extra content type info to a song title if not already present
-function normalize_song(song_code) {
-    const song_cache = JSON.parse(localStorage.getItem("song_cache"));
-    let song = song_cache[song_code]["song"];
-    if (
-        // check for extra info
-        song_cache[song_code]["extra"]["content_type"] != null &&
-        // ignore if extra info already included in title
-        !song.toLowerCase().includes(song_cache[song_code]["extra"]["content_type"].toLowerCase())
-    ) {
-        // append extra info to title
-        song += `【${song_cache[song_code]["extra"]["content_type"]}】`;
-    }
-    return song;
+// sends a search query to the API and renders results into the song table
+function start_search() {
+    $.ajax({
+        type: "POST",
+        url: API_URL + "/api/v1/command/search/",
+        data: JSON.stringify({
+            str: $("#search-field").val()
+        }),
+        contentType: "application/json; charset=utf-8"
+    }).then(function(data) {
+        $("#song-table-body").empty();
+        data.results[0].forEach(song => {
+            let song_cache = JSON.parse(localStorage.getItem("song_cache")) ?? {};
+            song_cache[song["code"]] = song;
+            localStorage.setItem("song_cache", JSON.stringify(song_cache));
+            append_table("#song-table-body", song["code"]);
+        });
+        // unhide song table
+        $("#song-table").css("display", "");
+    });
 }
 
-// builds the list of modal body elements for a given song
-function build_song_modal_data(song_code) {
-    const song_cache = JSON.parse(localStorage.getItem("song_cache")) ?? {};
-    const modal_data = [];
-    modal_data.push($("<h4>").text("Title:"));
-    modal_data.push($("<p>").text($("#song-modal-title").text()));
-    modal_data.push($("<h4>").text("Artist:"));
-    modal_data.push($("<p>").text(song_cache[song_code]["artist"]));
-    if (song_cache[song_code]["extra"]["tie_up"] != null) {
-        modal_data.push($("<h4>").text("Franchise:"));
-        modal_data.push($("<p>").text(song_cache[song_code]["extra"]["tie_up"]));
+// reads song history from localStorage and renders it into the history table
+function fill_song_history() {
+    if (localStorage.getItem("song_history") != null) {
+        const song_history = JSON.parse(localStorage.getItem("song_history"));
+        $("#empty-history").css("display", "none");
+        $("#history").css("display", "");
+        $("#history-table-body").empty();
+        const today = new Date().toLocaleDateString("ja-JP");
+        song_history.forEach(function(song) {
+            if (song["last_played_date"] == today) {
+                append_table("#history-table-body", song["song_code"], song["last_played_time"]);
+            } else {
+                append_table("#history-table-body", song["song_code"], song["last_played_date"]);
+            }
+        });
+        // sort table in reverse chronological
+        const rows = $("#history-table-body tr").get().reverse();
+        $(rows).appendTo("#history-table-body");
     }
-    modal_data.push($("<h4>").text("Code:"));
-    modal_data.push($("<p>").attr("id", "current-song-code").text(song_code));
-    if (sessionStorage.getItem("debug_mode")) {
-        modal_data.push($("<hr>"));
-        modal_data.push($("<h4>").text("Debugging info:"));
-        modal_data.push($("<pre>").text(JSON.stringify(song_cache[song_code], null, 2)));
+}
+
+// reads favourites from localStorage and renders it into the favourites table
+function fill_favourites() {
+    if (localStorage.getItem("favourites") != null) {
+        const favourites = JSON.parse(localStorage.getItem("favourites"));
+        $("#empty-favourites").css("display", "none");
+        $("#favourites").css("display", "");
+        $("#favourites-table-body").empty();
+        favourites.forEach(function(song) {
+            append_table("#favourites-table-body", song);
+        });
     }
-    return modal_data;
+    // sort table by artist, then title
+    const rows = $("#favourites-table-body tr").get();
+    rows.sort(function(a, b) {
+        const valA2 = $(a).children("td").eq(1).text().trim().toLowerCase();
+        const valB2 = $(b).children("td").eq(1).text().trim().toLowerCase();
+        if (valA2 < valB2) { return -1; }
+        if (valA2 > valB2) { return 1; }
+        const valA1 = $(a).children("td").eq(0).text().trim().toLowerCase();
+        const valB1 = $(b).children("td").eq(0).text().trim().toLowerCase();
+        if (valA1 < valB1) { return -1; }
+        if (valA1 > valB1) { return 1; }
+        return 0;
+    });
+    $(rows).appendTo($("#favourites-table-body"));
+}
+
+// append queued songs to the song history
+function append_history(song_code) {
+    let song_history = JSON.parse(localStorage.getItem("song_history")) ?? [];
+    const today = new Date();
+    song_history.push({
+        song_code: song_code,
+        last_played_date: today.toLocaleDateString("ja-JP"),
+        last_played_time: today.toLocaleTimeString("ja-JP")
+    });
+    if (song_history.length > HISTORY_MAX_LENGTH) {
+        song_history.shift();
+    }
+    localStorage.setItem("song_history", JSON.stringify(song_history));
+    fill_song_history();
+}
+
+// appends a single song row to a given table body element
+function append_table(table_body, song_code, last_played = null) {
+    const song_cache = JSON.parse(localStorage.getItem("song_cache"));
+    const row = $(`<tr id=${song_code} onclick="fill_song_modal(this)">`);
+    row.append($("<td>").text(normalize_song(song_code)));
+    row.append($("<td>").text(song_cache[song_code]["artist"]));
+    if (table_body == "#history-table-body") {
+        row.append($("<td>").text(last_played));
+    } else {
+        row.append($("<td>").text(song_code));
+    }
+    $(table_body).append(row);
+}
+
+// shows the song detail modal and populates it with data for the selected song
+function fill_song_modal(song) {
+    // show song modal
+    $("#song-modal").modal("show");
+    // get song code of active selection
+    const song_code = $(song).attr("id");
+    // set modal title
+    $("#song-modal-title").text(normalize_song(song_code));
+    // set modal body
+    $("#song-modal-body").empty().append(build_song_modal_data(song_code));
+    // update ui based on favourite status
+    const favourites = localStorage.getItem("favourites") || [];
+    if (favourites.includes(song_code)) {
+        $("#favourite-button").removeClass("btn-default");
+        $("#favourite-button").addClass("btn-danger");
+    } else {
+        $("#favourite-button").removeClass("btn-danger");
+        $("#favourite-button").addClass("btn-default");
+    }
 }
