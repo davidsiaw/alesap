@@ -27,6 +27,7 @@ function normalize_song(song_code) {
 }
 
 // builds the list of modal body elements for a given song
+// TODO: hashify
 function build_song_modal_data(song_code) {
     const song_cache = JSON.parse(localStorage.getItem("song_cache")) ?? {};
     const modal_data = [];
@@ -34,9 +35,21 @@ function build_song_modal_data(song_code) {
     modal_data.push($("<p>").text($("#song-modal-title").text()));
     modal_data.push($("<h4>").text("Artist:"));
     modal_data.push($("<p>").text(song_cache[song_code]["artist"]));
-    if (song_cache[song_code]["extra"]["tie_up"] != null) {
-        modal_data.push($("<h4>").text("Franchise:"));
-        modal_data.push($("<p>").text(song_cache[song_code]["extra"]["tie_up"]));
+    if (song_cache[song_code]["extra"]["genre_name"]) {
+        modal_data.push($("<h4>").text("Genre:"));
+        modal_data.push($("<p>").text(song_cache[song_code]["extra"]["genre_name"]));
+    }
+    const info = song_cache[song_code]["extra"]["information"] ??
+        song_cache[song_code]["extra"]["program_name"] ??
+        song_cache[song_code]["extra"]["tie_up"] ??
+        null;
+    if (info) {
+        modal_data.push($("<h4>").text("Info:"));
+        modal_data.push($("<p>").text(info));
+    }
+    if (song_cache[song_code]["extra"]["introcha"]) {
+        modal_data.push($("<h4>").text("Lyrics:"));
+        modal_data.push($("<p>").text(`${song_cache[song_code]["extra"]["introcha"]}…`));
     }
     modal_data.push($("<h4>").text("Code:"));
     modal_data.push($("<p>").attr("id", "current-song-code").text(song_code));
