@@ -58,36 +58,25 @@ function queue_random(table) {
 
 // sends a stop request to the API to halt the current song
 function stop_song() {
-    if (session_is_active()) {
-        $.ajax({
-            type: "POST",
-            url: API_URL + "/api/v1/command/stop/",
-            data: JSON.stringify({
-                akey: sessionStorage.getItem("akey"),
-                skey: sessionStorage.getItem("skey"),
-                scd: sessionStorage.getItem("scd"),
-            }),
-            contentType: "application/json; charset=utf-8"
-        }).then(function(data) {
-            Toastify({
-                text: "Sent stop request",
-                duration: 3000,
-                position: "center",
-                style: {
-                    background: "#ed5565",
-                }
-            }).showToast();
-        });
-    } else {
+    $.ajax({
+        type: "POST",
+        url: API_URL + "/api/v1/command/stop/",
+        data: JSON.stringify({
+            akey: sessionStorage.getItem("akey"),
+            skey: sessionStorage.getItem("skey"),
+            scd: sessionStorage.getItem("scd"),
+        }),
+        contentType: "application/json; charset=utf-8"
+    }).then(function(data) {
         Toastify({
-            text: "Not connected",
+            text: "Sent stop request",
             duration: 3000,
             position: "center",
             style: {
                 background: "#ed5565",
             }
         }).showToast();
-    }
+    });
 }
 
 function add_favourite(song_code) {

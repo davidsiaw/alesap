@@ -87,15 +87,28 @@ async function scan_success(decoded_text, decoded_result) {
 // helper function to change & display connection status to user
 function update_status(status) {
     if (status == "connected" && session_is_active()) {
+        // update info widget
         $($("#info-widget").children()[0]).removeClass("red-bg");
         $($("#info-widget").children()[0]).addClass("navy-bg");
         $("#connected").text("Connected on " + sessionStorage.getItem("connected_at"));
+        // update various buttons
+        $("#random-history").addClass("btn-primary");
+        $("#random-favourite").addClass("btn-primary");
+        $("#add-to-queue").addClass("btn-primary");
+        $("#stop-playback").css("display", "block");
         $("#leave-room").css("display", "block");
     } else if (status == "disconnected" && session_is_active()) {
+        // delete session info
         sessionStorage.clear();
+        // update info widget
         $($("#info-widget").children()[0]).removeClass("navy-bg");
         $($("#info-widget").children()[0]).addClass("red-bg");
         $("#connected").text("Not Connected");
+        // update various buttons
+        $("#random-history").removeClass("btn-primary");
+        $("#random-favourite").removeClass("btn-primary");
+        $("#add-to-queue").removeClass("btn-primary");
+        $("#stop-playback").css("display", "none");
         $("#leave-room").css("display", "none");
     }
 }

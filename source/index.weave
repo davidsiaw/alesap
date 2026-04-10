@@ -36,7 +36,7 @@ empty_page "", "alesap.blankaex.reisen", theme: :dark do
                 submit "Search", :search do
                     script "start_search();"
                 end
-                normal_button :stop, nil, id: "stop-playback", style: "danger" do
+                normal_button :stop, nil, id: "stop-playback", style: "danger", css_style: "display: none;" do
                     script "stop_song();"
                 end
             end
@@ -50,10 +50,6 @@ empty_page "", "alesap.blankaex.reisen", theme: :dark do
                 tbody id: "song-table-body" do
                 end
             end
-            # TODO: some interaction with the table above creating <ul> .pagination
-            # block_button nil, "Stop Playback", id: "stop-playback", style: "danger" do
-            #     script "stop_song();"
-            # end
         end
 
         tab "History" do
@@ -65,7 +61,7 @@ empty_page "", "alesap.blankaex.reisen", theme: :dark do
                 end
             end
             div id: "history", style: "display: none;" do
-                block_button :refresh, "I'm feeling lucky" do
+                block_button :refresh, "I'm feeling lucky", id: "random-history", style: "none" do
                     script "queue_random('history');"
                 end
                 table striped: true, id: "history-table" do
@@ -89,7 +85,7 @@ empty_page "", "alesap.blankaex.reisen", theme: :dark do
                 end
             end
             div id: "favourites", style: "display: none;" do
-                block_button :refresh, "I'm feeling lucky" do
+                block_button :refresh, "I'm feeling lucky", id: "random-favourite", style: "none" do
                     script "queue_random('favourites');"
                 end
                 table striped: true, id: "favourites-table" do
@@ -204,7 +200,7 @@ empty_page "", "alesap.blankaex.reisen", theme: :dark do
             end
         }
         footer do
-            block_button "Add to queue" do
+            block_button "Add to queue", id: "add-to-queue", style: "none" do
                 script "queue_song($('#current-song-code').text())"
             end
             normal_button :heart, nil, style: "default", id: "favourite-button" do
