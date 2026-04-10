@@ -15,29 +15,10 @@ thead {
     border-top: 1px solid rgba(136, 142, 168, 0.5) !important;
 }
 
-form {
-    display: flex !important;
-    gap: 5px !important;
-}
-
-form button {
-    display: inline-block;
-    height: 34px !important;
-    box-sizing: border-box;
-}
-
 form input, form select {
     border-radius: 4px !important;
 }
 
-form label {
-    font-size: 13px !important;
-    font-weight: normal !important;
-}
-
-form label div {
-    margin-right: 4px !important;
-}
 
 .form-group {
     width: 100% !important;
@@ -205,4 +186,25 @@ form label div {
 
 #song-modal-body pre {
     margin-top: 10px !important;
+}
+
+/* fix when wform supports ids with - */
+#song_search_form, #queue_id_form {
+    display: flex !important;
+    gap: 5px !important;
+}
+
+#song_search_form button, #queue_id_form button {
+    display: inline-block;
+    height: 34px !important;
+    box-sizing: border-box;
+}
+
+#developer_mode_form .i-checks label {
+    font-size: 13px !important;
+    font-weight: normal !important;
+}
+
+#developer_mode_form label div {
+    margin-right: 4px !important;
 }

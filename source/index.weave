@@ -24,8 +24,7 @@ empty_page "", "alesap.blankaex.reisen", theme: :dark do
     tabs do
         tab "Search" do
             h4 "Song search:"
-            # TODO: investigate why setting wform id breaks
-            wform do
+            wform id: "song_search_form" do
                 textfield "search", nil, placeholder: "Type to start searching", id: "search-field"
                 submit "Search", :search do
                     script "start_search();"
@@ -104,7 +103,10 @@ empty_page "", "alesap.blankaex.reisen", theme: :dark do
                         "Not connected"
                     end
                     hr
-                    wform do
+                    wform id: "nickname_form" do
+                        textfield "nickname", "Nickname:"
+                    end
+                    wform id: "developer_mode_form" do
                         checkbox "developer-mode", "Enable Developer Tools"
                     end
                 end
@@ -113,7 +115,7 @@ empty_page "", "alesap.blankaex.reisen", theme: :dark do
                 type :panel
                 title "Queue song by ID"
                 # TODO: weaver breaks when form ids contain - (changes function name)
-                wform do
+                wform id: "queue_id_form" do
                     textfield "ecd", nil, placeholder: "Song ID", id: "ecd-field"
                     submit "Add to queue", :search do
                         script "queue_song($('#ecd-field').val());"
@@ -177,7 +179,7 @@ empty_page "", "alesap.blankaex.reisen", theme: :dark do
                 div id: "reader" do
                 end
                 div id: "selector-container", style: "display: none;" do
-                    wform do
+                    wform id: "camera_form" do
                         dropdown "cameras", "Select Camera", [], id: "camera-selector"
                     end
                 end
