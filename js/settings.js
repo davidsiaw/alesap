@@ -6,6 +6,23 @@
  * +------------------------------------------------------------
  */
 
+// set user nickname
+function set_nickname() {
+    if (!$("#nickname-field").val()) {
+        // TODO: set a random nickname
+        $("#nickname-field").val("Default");
+    }
+    localStorage.setItem("nickname", $("#nickname-field").val());
+    Toastify({
+        text: "Nickname saved",
+        duration: 3000,
+        position: "center",
+        style: {
+            background: "#18a689",
+        }
+    }).showToast();
+}
+
 // toggles debugging mode on/off and updates the debug widget visibility
 function toggle_debug() {
     // turn on debug mode

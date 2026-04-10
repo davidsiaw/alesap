@@ -103,9 +103,9 @@ empty_page "", "alesap.blankaex.reisen", theme: :dark do
                         "Not connected"
                     end
                     hr
-                    h4 "Nickname"
+                    h4 "Nickname:"
                     wform id: "nickname_form" do
-                        textfield "nickname", nil
+                        textfield "nickname", nil, id: "nickname-field"
                         submit "Set nickname", :check do
                             script "set_nickname();"
                         end

@@ -14,6 +14,7 @@ function queue_song(song_code) {
             type: "POST",
             url: API_URL + "/api/v1/command/queue/",
             data: JSON.stringify({
+                // nickname: localStorage.getItem("nickname"),
                 akey: sessionStorage.getItem("akey"),
                 skey: sessionStorage.getItem("skey"),
                 scd: sessionStorage.getItem("scd"),
@@ -62,6 +63,7 @@ function stop_song() {
         type: "POST",
         url: API_URL + "/api/v1/command/stop/",
         data: JSON.stringify({
+            // nickname: localStorage.getItem("nickname"),
             akey: sessionStorage.getItem("akey"),
             skey: sessionStorage.getItem("skey"),
             scd: sessionStorage.getItem("scd"),
