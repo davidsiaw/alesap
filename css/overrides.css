@@ -30,6 +30,15 @@ form input, form select {
     border-radius: 4px !important;
 }
 
+form label {
+    font-size: 13px !important;
+    font-weight: normal !important;
+}
+
+form label div {
+    margin-right: 4px !important;
+}
+
 .form-group {
     width: 100% !important;
 }

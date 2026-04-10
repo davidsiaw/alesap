@@ -8,6 +8,7 @@ empty_page "", "alesap.blankaex.reisen", theme: :dark do
     request_js "js/search.js"
     request_js "js/main.js"
     request_js "js/session.js"
+    request_js "js/settings.js"
     request_js "js/controls.js"
     request_css "css/overrides.css"
 
@@ -102,6 +103,10 @@ empty_page "", "alesap.blankaex.reisen", theme: :dark do
                     p id: "connected" do
                         "Not connected"
                     end
+                    hr
+                    wform do
+                        checkbox "developer-mode", "Enable Developer Tools"
+                    end
                 end
             end
             ibox do
@@ -115,29 +120,31 @@ empty_page "", "alesap.blankaex.reisen", theme: :dark do
                     end
                 end
             end
-            ibox do
-                type :warning
-                block_button nil, "Clear localStorage", style: "warning" do
-                    script "localStorage.clear();"
-                end
-                block_button nil, "Clear sessionStorage", style: "warning" do
-                    script "sessionStorage.clear();"
-                end
-                title "Developer tools"
-                block_button nil, "Toggle Debug Mode", style: "warning" do
-                    script "toggle_debug();"
-                end
-                div id: "debug-div", style: "display: none;" do
-                    # TODO: feature request to weaver to enable click on .panel-heading
-                    accordion do
-                        tab "Device Info" do
-                            pre id: "device-info"
-                        end
-                        tab "sessionStorage" do
-                            pre id: "session-storage"
-                        end
-                        tab "localStorage" do
-                            pre id: "local-storage"
+            div id: "developer-tools" do
+                ibox do
+                    type :warning
+                    block_button nil, "Clear localStorage", style: "warning" do
+                        script "localStorage.clear();"
+                    end
+                    block_button nil, "Clear sessionStorage", style: "warning" do
+                        script "sessionStorage.clear();"
+                    end
+                    title "Developer Tools"
+                    block_button nil, "Toggle Debug Mode", style: "warning" do
+                        script "toggle_debug();"
+                    end
+                    div id: "debug-div", style: "display: none;" do
+                        # TODO: feature request to weaver to enable click on .panel-heading
+                        accordion do
+                            tab "Device Info" do
+                                pre id: "device-info"
+                            end
+                            tab "sessionStorage" do
+                                pre id: "session-storage"
+                            end
+                            tab "localStorage" do
+                                pre id: "local-storage"
+                            end
                         end
                     end
                 end

@@ -29,6 +29,12 @@ function startup() {
         fill_favourites();
     });
 
+    // add listeners for settings
+    $("#developer-tools").toggle($('input[name="developer-mode"]').prop('checked'));
+    $('input[name="developer-mode"]').on('ifChecked ifUnchecked', function () {
+        $("#developer-tools").toggle($('input[name="developer-mode"]').prop('checked'));
+    });
+
     // checks if session is already active
     if (session_is_active()) {
         update_status("connected");
