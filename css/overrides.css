@@ -137,16 +137,16 @@ form input, form select {
 }
 
 .toast-green {
-    background: "#18a689" !important;
+    background: #18a689 !important;
 }
 
 .toast-red {
-    background: "#ed5565" !important;
+    background: #ed5565 !important;
 }
 
 .toast-yellow {
-    color: "#1e1e1e" !important;
-    background: "#f8ac59" !important;
+    color: #1e1e1e !important;
+    background: #f8ac59 !important;
 }
 
 #debug-widget {
