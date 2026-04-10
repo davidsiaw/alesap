@@ -27,35 +27,28 @@ function normalize_song(song_code) {
 }
 
 // builds the list of modal body elements for a given song
-// TODO: hashify
 function build_song_modal_data(song_code) {
-    const song_cache = JSON.parse(localStorage.getItem("song_cache")) ?? {};
-    const modal_data = [];
-    modal_data.push($("<h4>").text("Title:"));
-    modal_data.push($("<p>").text($("#song-modal-title").text()));
-    modal_data.push($("<h4>").text("Artist:"));
-    modal_data.push($("<p>").text(song_cache[song_code]["artist"]));
-    if (song_cache[song_code]["extra"]["genre_name"]) {
-        modal_data.push($("<h4>").text("Genre:"));
-        modal_data.push($("<p>").text(song_cache[song_code]["extra"]["genre_name"]));
-    }
-    const info = song_cache[song_code]["extra"]["information"] ??
-        song_cache[song_code]["extra"]["program_name"] ??
-        song_cache[song_code]["extra"]["tie_up"] ??
-        null;
-    if (info) {
-        modal_data.push($("<h4>").text("Info:"));
-        modal_data.push($("<p>").text(info));
-    }
-    if (song_cache[song_code]["extra"]["introcha"]) {
-        modal_data.push($("<h4>").text("Lyrics:"));
-        modal_data.push($("<p>").text(`${song_cache[song_code]["extra"]["introcha"]}…`));
-    }
-    modal_data.push($("<h4>").text("Code:"));
-    modal_data.push($("<p>").attr("id", "current-song-code").text(song_code));
+    const song_cache = JSON.parse(localStorage.getItem("song_cache"));
+    const song_info = {
+        Title: song_cache[song_code].song,
+        Artist: song_cache[song_code].artist,
+        Genre: song_cache[song_code].extra.genre_name,
+        Info: song_cache[song_code].extra.information ?? 
+            song_cache[song_code].extra.program_name ?? 
+            song_cache[song_code].extra.tie_up,
+        Lyrics: song_cache[song_code].extra?.introcha ?
+            `${song_cache[song_code].extra.introcha}…` : null,
+        Code: song_cache[song_code].code
+    };
+    let modal_data = [];
+    Object.keys(song_info).forEach(key => {
+        if (song_info[key]) {
+            modal_data.push($("<h4>").text(`${key}:`));
+            modal_data.push($("<p>").text(song_info[key]));
+        }
+    });
     if (sessionStorage.getItem("debug_mode")) {
-        modal_data.push($("<hr>"));
-        modal_data.push($("<h4>").text("Debugging info:"));
+        modal_data.push($("<hr>"), $("<h4>").text("Debugging info:"));
         modal_data.push($("<pre>").text(JSON.stringify(song_cache[song_code], null, 2)));
     }
     return modal_data;
