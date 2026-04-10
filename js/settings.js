@@ -7,26 +7,30 @@
  */
 
 // set user nickname
-async function set_nickname() {
-    if (!$("#nickname-field").val()) {
+async function set_nickname(startup = false) {
+    let nickname = startup ? 
+        localStorage.getItem("nickname") :
+        $("#nickname-field").val() ||
+        null;
+    if (!nickname) {
         // TODO: remove network call
-        const [adjRes, nounRes] = await Promise.all([
-            fetch('https://api.datamuse.com/words?rel_jjb=thing&max=1000'),
-            fetch('https://api.datamuse.com/words?rel_jja=blue&max=1000')
+        const [adjs, nouns] = await Promise.all([
+            fetch('https://api.datamuse.com/words?rel_jjb=thing&max=1000').then(r => r.json()),
+            fetch('https://api.datamuse.com/words?rel_jja=blue&max=1000').then(r => r.json())
         ]);
-        const adjs = await adjRes.json();
-        const nouns = await nounRes.json();
-        const a = adjs[Math.floor(Math.random() * adjs.length)].word;
-        const n = nouns[Math.floor(Math.random() * nouns.length)].word;
-        $("#nickname-field").val(`${a}${n}`);
+        const pick = arr => arr[Math.floor(Math.random() * arr.length)].word;
+        nickname = `${pick(adjs)}${pick(nouns)}`;
     }
-    localStorage.setItem("nickname", $("#nickname-field").val());
-    Toastify({
-        text: "Nickname saved",
-        duration: 3000,
-        position: "center",
-        className: "toast-green",
-    }).showToast();
+    $("#nickname-field").val(nickname);
+    localStorage.setItem("nickname", nickname);
+    if (!startup) {
+        Toastify({
+            text: "Nickname saved",
+            duration: 3000,
+            position: "center",
+            className: "toast-green",
+        }).showToast();
+    }
 }
 
 // toggles debugging mode on/off and updates the debug widget visibility

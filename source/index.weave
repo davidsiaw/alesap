@@ -107,7 +107,7 @@ empty_page "", "alesap.blankaex.reisen", theme: :dark do
                     wform id: "nickname_form" do
                         textfield "nickname", nil, id: "nickname-field"
                         submit "Set nickname", :check do
-                            script "set_nickname();"
+                            script "set_nickname(false);"
                         end
                     end
                     wform id: "developer_mode_form" do

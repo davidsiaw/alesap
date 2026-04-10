@@ -30,12 +30,7 @@ function startup() {
     });
 
     // load various settings options
-    const nickname =  localStorage.getItem("nickname");
-    if (nickname) {
-        $("#nickname-field").val(nickname);
-    } else {
-        set_nickname();
-    }
+    set_nickname(true);
     $("#developer-tools").toggle($('input[name="developer-mode"]').prop('checked'));
     $('input[name="developer-mode"]').on('ifChecked ifUnchecked', function () {
         $("#developer-tools").toggle($('input[name="developer-mode"]').prop('checked'));
