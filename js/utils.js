@@ -44,7 +44,8 @@ function build_song_modal_data(song_code) {
     Object.keys(song_info).forEach(key => {
         if (song_info[key]) {
             modal_data.push($("<h4>").text(`${key}:`));
-            modal_data.push($("<p>").text(song_info[key]));
+            const tag = $("<p>").attr("id", `current-song-${key.toLowerCase()}`);
+            modal_data.push(tag.text(song_info[key]));
         }
     });
     if (sessionStorage.getItem("debug_mode")) {
