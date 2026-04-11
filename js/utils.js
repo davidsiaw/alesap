@@ -13,9 +13,10 @@ let TOAST_DURATION = 2000;
 let CONNECTION_TOAST;
 let DEBUG_TOAST;
 
+// helper function to extract values from song cache
 function song_cache_get(song_code, key) {
     const song_cache = JSON.parse(localStorage.getItem("song_cache"));
-    return song_cache[song_code][key] ?? song_cache[song_code].extra[key];
+    return song_cache[song_code][key] ?? song_cache[song_code].extra[key] ?? null;
 }
 
 // appends extra content type info to a song title if not already present
@@ -37,7 +38,7 @@ function normalize_song(song_code) {
 // builds the list of modal body elements for a given song
 function build_song_modal_data(song_code) {
     const song_cache = JSON.parse(localStorage.getItem("song_cache"));
-    const song_count = JSON.parse(localStorage.getItem("song_count"));
+    const song_count = JSON.parse(localStorage.getItem("song_count")) ?? {};
     const song_info = {
         Title: song_cache[song_code].song,
         Artist: song_cache[song_code].artist,

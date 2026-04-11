@@ -49,7 +49,8 @@ function queue_random(table) {
         queue_song(song_history[Math.floor(Math.random() * song_history.length)]["song_code"]);
     } else if (table == "favourites") {
         const favourites = JSON.parse(localStorage.getItem("favourites"));
-        queue_song(favourites[Math.floor(Math.random() * favourites.length)]);
+        const songs = Object.keys(favourites).filter(key => favourites[key]);
+        queue_song(songs[Math.floor(Math.random() * songs.length)]);
     }
 }
 
@@ -76,18 +77,11 @@ function stop_song() {
 }
 
 function add_favourite(song_code) {
-    let favourites = JSON.parse(localStorage.getItem("favourites")) || [];
-    // add to favourites
-    if (!favourites.includes(song_code)) {
-        $("#favourite-button").removeClass("btn-default");
-        $("#favourite-button").addClass("btn-danger");
-        favourites.push(song_code);
-    // remove from favourites
-    } else {
-        $("#favourite-button").removeClass("btn-danger");
-        $("#favourite-button").addClass("btn-default");
-        favourites.splice(favourites.indexOf(song_code), 1);
-    }
+    let favourites = JSON.parse(localStorage.getItem("favourites")) || {};
+    $("#favourite-button")
+        .toggleClass("btn-default", favourites[song_code])
+        .toggleClass("btn-danger", !favourites[song_code]);
+    favourites[song_code] = !favourites[song_code];
     localStorage.setItem("favourites", JSON.stringify(favourites));
     fill_favourites();
 }
