@@ -41,6 +41,7 @@ function build_song_modal_data(song_code) {
             song_cache[song_code].extra.tie_up,
         Lyrics: song_cache[song_code].extra?.introcha ?
             `${song_cache[song_code].extra.introcha}…` : null,
+        "Play Count": song_cache[song_code].count,
         Code: song_cache[song_code].code
     };
     let modal_data = [];

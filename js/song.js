@@ -90,6 +90,11 @@ function append_history(song_code) {
         song_history.shift();
     }
     localStorage.setItem("song_history", JSON.stringify(song_history));
+
+    let song_cache = JSON.parse(localStorage.getItem("song_cache"));
+    song_cache[song_code].count = (song_cache[song_code].count ?? 0) + 1;
+    localStorage.setItem("song_cache", JSON.stringify(song_cache));
+
     fill_song_history();
 }
 
