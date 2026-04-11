@@ -26,7 +26,7 @@ empty_page "", "alesap.blankaex.reisen", theme: :dark do
             wform id: "song_search_form" do
                 textfield "search", nil, placeholder: "Type to start searching", id: "search-field"
                 submit "Search", :search do
-                    script "start_search();"
+                    script "start_search(0);"
                 end
                 normal_button :stop, nil, id: "stop-playback", style: "danger", css_style: "display: none;" do
                     script "stop_song();"
