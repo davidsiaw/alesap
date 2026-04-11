@@ -140,6 +140,10 @@ form input, form select {
     background: #f8ac59 !important;
 }
 
+#search-help {
+    margin-left: 6px !important;
+}
+
 #footer {
     background: #1b1e35 !important;
     margin-top: 6px !important;
@@ -187,6 +191,10 @@ form input, form select {
     margin: 0px 20px 10px 20px !important;
 }
 
+#search-help-modal-body p {
+    margin: 6px 20px 10px 20px !important;
+}
+
 #song-modal-body pre {
     margin-top: 10px !important;
 }
@@ -199,7 +207,7 @@ form input, form select {
     margin-bottom: 6px !important;
 }
 
-#ecd-field-group {
+#search-field-group, #ecd-field-group {
     margin-bottom: 0px !important;
 }
 
