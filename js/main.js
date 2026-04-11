@@ -12,13 +12,13 @@ function startup() {
     // add listeners to search bar
     $(window).keydown(function(event) {
         if (event.keyCode == 13) {
-            start_search();
+            start_search(0);
             event.preventDefault();
             return false;
         }
     });
     $("#search-field").on("change", "", function() {
-        start_search();
+        start_search(0);
     });
 
     // add listeners to populate tabs

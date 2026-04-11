@@ -8,16 +8,21 @@
  */
 
 // sends a search query to the API and renders results into the song table
-function start_search() {
+function start_search(page) {
     $.ajax({
         type: "POST",
         url: API_URL + "/api/v1/command/search/",
         data: JSON.stringify({
-            str: $("#search-field").val()
+            str: $("#search-field").val(),
+            page: page
         }),
         contentType: "application/json; charset=utf-8"
     }).then(function(data) {
-        $("#song-table-body").empty();
+        // clear song table entries & unhide table if starting a new search
+        if (page == 0) {
+            $("#song-table-body").empty();
+            $("#song-table").show();
+        }
         data.results[0].forEach(song => {
             let song_cache = JSON.parse(localStorage.getItem("song_cache")) ?? {};
             song_cache[song["code"]] = song;
@@ -25,7 +30,12 @@ function start_search() {
             append_table("#song-table-body", song["code"]);
         });
         // unhide song table
-        $("#song-table").show();
+        if (page >= SEARCH_PAGE_LIMIT || data.results[0].length === 0) {
+            return;
+        }
+        setTimeout(() => {
+            start_search(page + 1);
+        }, SEARCH_INTERVAL);
     });
 }
 

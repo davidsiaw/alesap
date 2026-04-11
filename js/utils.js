@@ -9,6 +9,8 @@
 
 // initialize globals
 const HISTORY_MAX_LENGTH = 20;
+const SEARCH_PAGE_LIMIT = 1000;
+const SEARCH_INTERVAL = 1000;
 let TOAST_DURATION = 2000;
 let CONNECTION_TOAST;
 let DEBUG_TOAST;
