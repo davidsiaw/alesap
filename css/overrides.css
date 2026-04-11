@@ -10,7 +10,19 @@ input::placeholder {
 table {
     margin-top: 10px !important;
     margin-bottom: 0px !important;
+    table-layout: fixed !important;
+    width: 100% !important;
 }
+
+td, th {
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+}
+
+th:nth-child(1)  { width: 50% !important; }
+th:nth-child(2)  { width: 30% !important; }
+th:nth-child(3)  { width: 20% !important; }
 
 thead {
     border-top: 1px solid rgba(136, 142, 168, 0.5) !important;
@@ -140,6 +152,10 @@ form input, form select {
     background: #f8ac59 !important;
 }
 
+#search-help {
+    margin-left: 6px !important;
+}
+
 #footer {
     background: #1b1e35 !important;
     margin-top: 6px !important;
@@ -187,6 +203,10 @@ form input, form select {
     margin: 0px 20px 10px 20px !important;
 }
 
+#search-help-modal-body p {
+    margin: 6px 20px 10px 20px !important;
+}
+
 #song-modal-body pre {
     margin-top: 10px !important;
 }
@@ -199,7 +219,7 @@ form input, form select {
     margin-bottom: 6px !important;
 }
 
-#ecd-field-group {
+#search-field-group, #ecd-field-group {
     margin-bottom: 0px !important;
 }
 

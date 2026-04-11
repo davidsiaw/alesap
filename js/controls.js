@@ -9,7 +9,7 @@
 
 // sends a queue request to the API for the given song code
 function queue_song(song_code) {
-    if (session_is_active()) {
+    if (session_is_active() && song_code) {
         $.ajax({
             type: "POST",
             url: API_URL + "/api/v1/command/queue/",
@@ -32,9 +32,12 @@ function queue_song(song_code) {
             append_history(song_code);
         });
     } else {
+        const toast_text = !session_is_active() ?
+            "Not connected" :
+            "Invalid song code";
         $("#song-modal").modal("hide");
         Toastify({
-            text: "Not connected",
+            text: toast_text,
             duration: TOAST_DURATION,
             position: "center",
             className: "toast-red",
@@ -44,12 +47,13 @@ function queue_song(song_code) {
 
 // queues a random song selected from the song history
 function queue_random(table) {
-    if (table == "history") {
+    if (table === "history") {
         const song_history = JSON.parse(localStorage.getItem("song_history"));
         queue_song(song_history[Math.floor(Math.random() * song_history.length)]["song_code"]);
-    } else if (table == "favourites") {
+    } else if (table === "favourites") {
         const favourites = JSON.parse(localStorage.getItem("favourites"));
-        queue_song(favourites[Math.floor(Math.random() * favourites.length)]);
+        const songs = Object.keys(favourites).filter(key => favourites[key]);
+        queue_song(songs[Math.floor(Math.random() * songs.length)]);
     }
 }
 
@@ -76,18 +80,11 @@ function stop_song() {
 }
 
 function add_favourite(song_code) {
-    let favourites = JSON.parse(localStorage.getItem("favourites")) || [];
-    // add to favourites
-    if (!favourites.includes(song_code)) {
-        $("#favourite-button").removeClass("btn-default");
-        $("#favourite-button").addClass("btn-danger");
-        favourites.push(song_code);
-    // remove from favourites
-    } else {
-        $("#favourite-button").removeClass("btn-danger");
-        $("#favourite-button").addClass("btn-default");
-        favourites.splice(favourites.indexOf(song_code), 1);
-    }
+    let favourites = JSON.parse(localStorage.getItem("favourites")) || {};
+    $("#favourite-button")
+        .toggleClass("btn-default", favourites[song_code])
+        .toggleClass("btn-danger", !favourites[song_code]);
+    favourites[song_code] = !favourites[song_code];
     localStorage.setItem("favourites", JSON.stringify(favourites));
     fill_favourites();
 }

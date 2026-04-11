@@ -39,7 +39,7 @@ function scan_qr() {
 
 // disable cameras and stop qr code reader
 async function stop_scanning() {
-    if (reader && reader.getState() == Html5QrcodeScannerState.SCANNING) {
+    if (reader && reader.getState() === Html5QrcodeScannerState.SCANNING) {
         await reader.stop();
     }
 }
@@ -66,7 +66,7 @@ async function scan_success(decoded_text, decoded_result) {
             sessionStorage.setItem("skey", keys[1]);
             sessionStorage.setItem("scd", keys[2]);
             sessionStorage.setItem("connected_at", new Date().toLocaleDateString("ja-JP"));
-            update_status("connected");
+            update_status(true);
             Toastify({
                 text: "Connected",
                 duration: TOAST_DURATION,
@@ -90,11 +90,11 @@ async function scan_success(decoded_text, decoded_result) {
 
 // helper function to change & display connection status to user
 function update_status(status) {
-    const active = status === "connected" && session_is_active();
+    const active = status && session_is_active();
 
-    $("#connected").text(active
-        ? `Connected on ${sessionStorage.getItem("connected_at")}`
-        : "Not Connected"
+    $("#connected").text(active ?
+        `Connected on ${sessionStorage.getItem("connected_at")}` :
+        "Not Connected"
     );
 
     $("#random-history, #random-favourite, #add-to-queue")
@@ -105,7 +105,7 @@ function update_status(status) {
 
     if (active) {
         CONNECTION_TOAST?.hideToast();
-    } else if (status === "disconnected" && session_is_active()) {
+    } else if (!status && session_is_active()) {
         sessionStorage.clear();
         show_connection_toast();
     }

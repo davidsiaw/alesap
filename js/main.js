@@ -12,13 +12,13 @@ function startup() {
     // add listeners to search bar
     $(window).keydown(function(event) {
         if (event.keyCode == 13) {
-            start_search();
+            start_search(0);
             event.preventDefault();
             return false;
         }
     });
     $("#search-field").on("change", "", function() {
-        start_search();
+        start_search(0);
     });
 
     // add listeners to populate tabs
@@ -41,9 +41,8 @@ function startup() {
     });
 
     // checks if session is already active
-    if (session_is_active()) {
-        update_status("connected");
-    } else {
+    update_status(session_is_active());
+    if (!session_is_active()) {
         show_connection_toast();
     }
 
@@ -51,7 +50,7 @@ function startup() {
     $(document).ready(function() {
         // TODO: update these if IDs can be set in weaver
         $("#song_search_form")[0].reset();
-        $("#queue_id_form")[0].reset();
+        $("#queue_code_form")[0].reset();
     });
 
     // disables debug mode on reload

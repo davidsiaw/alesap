@@ -9,29 +9,41 @@
 
 // initialize globals
 const HISTORY_MAX_LENGTH = 20;
+const SEARCH_PAGE_LIMIT = 1000;
+const SEARCH_INTERVAL = 1000;
 let TOAST_DURATION = 2000;
 let CONNECTION_TOAST;
 let DEBUG_TOAST;
 
+// helper function to extract values from song cache
+function song_cache_get(song_code, key) {
+    const song_cache = JSON.parse(localStorage.getItem("song_cache"));
+    return song_cache[song_code][key] ?? song_cache[song_code].extra[key] ?? null;
+}
+
 // appends extra content type info to a song title if not already present
 function normalize_song(song_code) {
-    const song_cache = JSON.parse(localStorage.getItem("song_cache"));
-    let song = song_cache[song_code].song;
-    if (
-        // check for extra info
-        song_cache[song_code].extra.content_type != null &&
-        // ignore if extra info already included in title
-        !song.toLowerCase().includes(song_cache[song_code].extra.content_type.toLowerCase())
-    ) {
-        // append extra info to title
-        song += `【${song_cache[song_code].extra.content_type}】`;
+    let normalized = song_cache_get(song_code, "song");
+
+    const extra_content =
+        song_cache_get(song_code, "tag_bv") ??
+        song_cache_get(song_code, "content_type");
+
+    const should_append = 
+        extra_content &&
+        !normalized.toLowerCase().includes(extra_content.toLowerCase());
+
+    if (should_append) {
+        normalized += `【${extra_content}】`;
     }
-    return song;
+
+    return normalized;
 }
 
 // builds the list of modal body elements for a given song
 function build_song_modal_data(song_code) {
     const song_cache = JSON.parse(localStorage.getItem("song_cache"));
+    const song_count = JSON.parse(localStorage.getItem("song_count")) ?? {};
     const song_info = {
         Title: song_cache[song_code].song,
         Artist: song_cache[song_code].artist,
@@ -41,7 +53,7 @@ function build_song_modal_data(song_code) {
             song_cache[song_code].extra.tie_up,
         Lyrics: song_cache[song_code].extra?.introcha ?
             `${song_cache[song_code].extra.introcha}…` : null,
-        "Play Count": song_cache[song_code].count,
+        "Play Count": song_count[song_code],
         Code: song_cache[song_code].code
     };
     let modal_data = [];
