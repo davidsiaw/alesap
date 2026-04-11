@@ -9,7 +9,7 @@
 
 // sends a queue request to the API for the given song code
 function queue_song(song_code) {
-    if (session_is_active()) {
+    if (session_is_active() && song_code) {
         $.ajax({
             type: "POST",
             url: API_URL + "/api/v1/command/queue/",
@@ -32,9 +32,12 @@ function queue_song(song_code) {
             append_history(song_code);
         });
     } else {
+        const toast_text = !session_is_active() ?
+            "Not connected" :
+            "Invalid song code";
         $("#song-modal").modal("hide");
         Toastify({
-            text: "Not connected",
+            text: toast_text,
             duration: TOAST_DURATION,
             position: "center",
             className: "toast-red",
