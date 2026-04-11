@@ -1,5 +1,9 @@
 # vim:ft=ruby
-empty_page "", "alesap.blankaex.reisen", theme: :dark do
+empty_page "", "alesap", theme: :dark do
+
+    ## HACK IOS ZOOM
+    request_css '#" /> <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1, viewport-fit=cover"><bla h="'
+
     #
     # Imports
     #
