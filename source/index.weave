@@ -118,10 +118,10 @@ empty_page "", "alesap.blankaex.reisen", theme: :dark do
             end
             ibox do
                 type :panel
-                title "Queue song by ID"
+                title "Queue song by code"
                 # TODO: weaver breaks when form ids contain - (changes function name)
-                wform id: "queue_id_form" do
-                    textfield "ecd", nil, placeholder: "Song ID", id: "ecd-field"
+                wform id: "queue_code_form" do
+                    textfield "ecd", nil, placeholder: "Song code", id: "ecd-field"
                     submit "Add to queue", :search do
                         script "queue_song($('#ecd-field').val());"
                     end

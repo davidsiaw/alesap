@@ -50,7 +50,7 @@ function startup() {
     $(document).ready(function() {
         // TODO: update these if IDs can be set in weaver
         $("#song_search_form")[0].reset();
-        $("#queue_id_form")[0].reset();
+        $("#queue_code_form")[0].reset();
     });
 
     // disables debug mode on reload
