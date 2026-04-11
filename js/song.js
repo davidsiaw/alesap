@@ -9,6 +9,7 @@
 
 var count = 0;
 var current_request_id = '';
+var current_search_term = '';
 
 var current_search_page = 0;
 var search_active = false;
@@ -38,7 +39,7 @@ function start_search(page = 0, push = true) {
         type: "POST",
         url: API_URL + "/api/v1/command/search/",
         data: JSON.stringify({
-            str: $("#search-field").val(),
+            str: current_search_term,
             request_id: current_request_id,
             page: page
         }),
