@@ -9,6 +9,7 @@
 
 var count = 0;
 var current_request_id = '';
+var current_search_term = '';
 
 var current_search_page = 0;
 var search_active = false;
@@ -23,9 +24,12 @@ setInterval(() => {
 
 // sends a search query to the API and renders results into the song table
 function start_search(page) {
-    search_ready = false;
     if (page == 0)
     {
+        var new_search_term = $("#search-field").val();
+        if (new_search_term == current_search_term) { return; };
+        current_search_term = new_search_term;
+
         current_search_page = 0;
         search_active = true;
         current_request_id = 'r' + count;
@@ -35,12 +39,13 @@ function start_search(page) {
         type: "POST",
         url: API_URL + "/api/v1/command/search/",
         data: JSON.stringify({
-            str: $("#search-field").val(),
+            str: current_search_term,
             request_id: current_request_id,
             page: page
         }),
         contentType: "application/json; charset=utf-8"
     }).then(function(data) {
+        search_ready = false;
 
         if (data.request_id != current_request_id) { return }
         // clear song table entries & unhide table if starting a new search
