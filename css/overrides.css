@@ -1,0 +1,226 @@
+/* hack to fix weaver quirk */
+.pagination {
+    display: none !important;
+}
+
+input::placeholder {
+    opacity: 50% !important;
+}
+
+table {
+    margin-top: 10px !important;
+    margin-bottom: 0px !important;
+}
+
+thead {
+    border-top: 1px solid rgba(136, 142, 168, 0.5) !important;
+}
+
+form input, form select {
+    border-radius: 4px !important;
+}
+
+.form-group {
+    width: 100% !important;
+}
+
+.container {
+    padding: 0px !important;
+}
+
+.nav-tabs {
+    display: flex !important;
+    border-bottom: 0px !important;
+    padding: 0px !important;
+}
+
+.nav-tabs li {
+    flex: 1 !important;
+    text-align: center !important;
+    overflow: hidden !important;
+}
+
+.nav-tabs > li > a {
+    padding: 10px 0px !important;
+    margin: 0px !important;
+    background-color: rgb(27, 30, 53);
+    border-radius: 4px 4px 0px 0px !important;
+    border-top: 1px solid rgba(136, 142, 168, 0.5) !important;
+    overflow: hidden !important;
+}
+
+.nav-tabs > li:first-child > a {
+    border-left: 1px solid rgba(136, 142, 168, 0.5) !important;
+    /* text-overflow: "🔍" !important; */
+}
+
+.nav-tabs > li:last-child > a {
+    border-right: 1px solid rgba(136, 142, 168, 0.5) !important;
+}
+
+.nav-tabs > li.active > a,
+.nav-tabs > li.active > a:hover,
+.nav-tabs > li.active > a:focus {
+    color: white !important;
+}
+
+.btn {
+    border-radius: 4px !important;
+}
+
+.btn-default {
+    background: #3b3f5c !important;
+    border: 0px !important;
+}
+
+.btn-warning, .panel-warning > .panel-heading, div.widget.yellow-bg {
+    color: #1e1e1e !important;
+}
+
+.btn-outline {
+    display: block;
+    width: 100% !important;
+}
+
+.panel {
+    margin: 6px 0px !important;
+}
+
+.panel-heading h5 {
+    margin: 0px !important;
+}
+
+.panel-body {
+    border-radius: 0px 0px 4px 4px !important;
+    border-bottom: 1px solid rgba(136, 142, 168, 0.5) !important;
+    border-left: 1px solid rgba(136, 142, 168, 0.5) !important;
+    border-right: 1px solid rgba(136, 142, 168, 0.5) !important;
+}
+
+.panel-group {
+    margin-bottom: 0px !important;
+}
+
+.jumbotron {
+    text-align: center !important;
+}
+
+.modal-content {
+    background-color: #1b1e35 !important;
+    border: 1px solid rgba(136, 142, 168, 0.5) !important;
+}
+
+.modal-body {
+    padding: 20px 30px 20px 30px;
+}
+
+.modal-header {
+    border-bottom: 1px solid rgba(136, 142, 168, 0.5) !important;
+}
+
+.modal-footer {
+    border-top: 1px solid rgba(136, 142, 168, 0.5) !important;
+    display: flex !important;
+}
+
+.close, .close:hover {
+    color: #FFF !important;
+}
+
+.toast-green {
+    background: #18a689 !important;
+}
+
+.toast-red {
+    background: #ed5565 !important;
+}
+
+.toast-yellow {
+    color: #1e1e1e !important;
+    background: #f8ac59 !important;
+}
+
+#footer {
+    background: #1b1e35 !important;
+    margin-top: 6px !important;
+    padding: 15px !important;
+    border: 1px solid rgba(136, 142, 168, 0.5) !important;
+    border-radius: 4px !important;
+}
+
+#button-container {
+    display: flex !important;
+    gap: 6px !important;
+}
+
+#scan-qr, #leave-room {
+    margin: 0px !important;
+}
+
+#random-history i, #random-favourite i, #scan-qr i {
+    margin-right: 4px !important;
+}
+
+#reader {
+    border: 1px solid rgba(136, 142, 168, 0.5) !important;
+    border-radius: 4px !important;
+}
+
+#selector-container {
+    margin-top: 10px !important;
+}
+
+#song-modal-title {
+    text-transform: uppercase !important;
+    font-size: 15px !important;
+    font-weight: bold !important;
+    margin: 0px !important;
+}
+
+#song-modal-body h4, #settings h4, #info-modal-body h4 {
+    font-size: 13px !important;
+    font-weight: bold !important;
+    margin: 6px 0px !important;
+}
+
+#song-modal-body p, #settings p, #info-modal-body p, #info-modal-body table {
+    margin: 0px 20px 10px 20px !important;
+}
+
+#song-modal-body pre {
+    margin-top: 10px !important;
+}
+
+#settings > :not(h4) {
+    margin: 10px 20px 0px 20px !important;
+}
+
+#nickname-field-group {
+    margin-bottom: 6px !important;
+}
+
+#ecd-field-group {
+    margin-bottom: 0px !important;
+}
+
+/* fix when wform supports ids with - */
+form {
+    display: flex !important;
+    gap: 5px !important;
+}
+
+form button {
+    display: inline-block;
+    height: 34px !important;
+    box-sizing: border-box;
+}
+
+#developer_mode_form .i-checks label {
+    font-size: 13px !important;
+    font-weight: normal !important;
+    margin-bottom: 4px;
+}
+
+#developer_mode_form label div {
+    margin: 0px 4px 4px 0px !important;
+}

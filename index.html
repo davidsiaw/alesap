@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Pasela Search</title>
+    <title>alesap.blankaex.reisen</title>
 
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
@@ -19,7 +19,11 @@
 
     <link href="css/animate.css" rel="stylesheet">
 
-    <link href="css/toastify.min.css" rel="stylesheet">
+    <link href="css/overrides.css" rel="stylesheet">
+
+    <link href="css/libs/toastify.min.css" rel="stylesheet">
+
+    <link href="css/plugins/iCheck/custom.css" rel="stylesheet">
 
 
 
@@ -37,10 +41,7 @@
         <div id="wrapper">
 	        <div class="wrapper-content">
 	            <div class="container">
-<div class="modal fade" id="scan_qr" tabindex="-1" role="dialog"><div class="modal-dialog" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button><h4>Scan QR Code</h4></div><div class="modal-body"><div class="container" style="width:100%;"><div class="section"><div id="reader"></div><div id="selector" style="display:none;"><form id="form0" role="form"><div class="form-group"><label class="control-label">Select Camera</label><div class="input-group" style="width: 100%"><select class="form-control" name="cameras" id="select0" placeholder=" "></select></div></div></form></div></div></div></div><div class="modal-footer"><button type="button" class="btn btn-primary    " id="" style="" onclick="action0(this)">Close</button></div></div></div></div><div class="widget style1 red-bg"><h3 id="connected" style="margin: 0px;">Not Connected</h3><samp id="keys"></samp></div><button type="button" class="btn btn-primary  btn-block  " id="" style="" onclick="action1(this)">Scan QR Code</button><button type="button" class="btn btn-primary  btn-block  " id="" style="display: none;" onclick="action2(this)">Leave Room</button><h1>Pasela Search</h1><form id="form1" role="form"><div class="form-group " id="textfield0-group"><div class=" "><input type="text" placeholder="" id="textfield0" name="search" rows="" class="form-control" value="" style="" autocomplete="on" autocorrect="on" autocapitalize="off" /></div></div><button type="submit" class="btn btn-primary  btn-block  " id="submit_button0" style="" onclick="action3(this, get_form1_object()); return false;">Search</button></form><div class="modal fade" id="song_modal" tabindex="-1" role="dialog"><div class="modal-dialog" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button><h4 id="song-modal" style="font-weight: bold"></h4></div><div class="modal-body"><span style="font-weight: bold">Artist: </span><p id="artist-modal"></p><span style="font-weight: bold">Code: </span><p id="code-modal"></p><span style="font-weight: bold">Extra: </span><p id="extra-modal">None</p></div><div class="modal-footer"><button type="button" class="btn btn-primary    " id="" style="" onclick="action4(this)">Queue</button></div></div></div></div><table class="table" id="dyn_table0" style="margin-top: 20px;"><thead id="dyn_table0_head"><th>Song Name</th><th>Artist</th><th>Code</th></thead><tbody id="dyn_table0_body"></tbody></table><ul class="pagination" /><button type="button" class="btn btn-danger  btn-block  " id="" style="" onclick="action5(this)">Stop Playback</button><button type="button" class="btn btn-alert  btn-block  " id="" style="" onclick="action6(this)">Debug Mode</button><script>var API_URL = "https://api.alesap.astrobunny.net";
-function getcolumns() {
-  return { song: 0, artist: 1, code: 2 };
-};
+<div class="tabs-container"><div class="tabs-normal"><ul class="nav nav-tabs"><li class="active"><a data-toggle="tab" href="#tab0">Search</a></li><li class=""><a data-toggle="tab" href="#tab1">History</a></li><li class=""><a data-toggle="tab" href="#tab2">Favourites</a></li><li class=""><a data-toggle="tab" href="#tab6">Advanced</a></li></ul><div class="tab-content"><div id="tab0" class="tab-pane active"><div class="panel-body"><h4>Song search:</h4><form id="song_search_form" role="form"><div class="form-group " id="search-field-group"><div class=" "><input type="text" placeholder="Type to start searching" id="search-field" name="search" rows="" class="form-control" value="" style="" autocomplete="on" autocorrect="on" autocapitalize="off" /></div></div><button type="submit" class="btn btn-primary    " id="submit_button0" style="" onclick="action0(this, get_song_search_form_object()); return false;"><i class="fa fa-search"></i></button><button type="button" class="btn btn-danger    " id="stop-playback" style="display: none;" onclick="action1(this)"><i class="fa fa-stop"></i> </button></form><table class="table table-striped" id="song-table" style="display: none;"><thead id="song-table-head"><th>Title</th><th>Artist</th><th>Code</th></thead><tbody id="song-table-body"></tbody></table><ul class="pagination" /></div></div><div id="tab1" class="tab-pane"><div class="panel-body"><div id="empty-history"><div class="jumbotron" style=""><p>No songs in history 🥺</p><span>Queue a song to get started</span></div></div><div id="history" style="display: none;"><button type="button" class="btn btn-none  btn-block  " id="random-history" style="" onclick="action2(this)"><i class="fa fa-magic"></i> I'm feeling lucky</button><table class="table table-striped" id="history-table" style=""><thead id="history-table-head"><th>Title</th><th>Artist</th><th>Last Played</th></thead><tbody id="history-table-body"></tbody></table><ul class="pagination" /></div></div></div><div id="tab2" class="tab-pane"><div class="panel-body"><div id="empty-favourites"><div class="jumbotron" style=""><p>No songs in favourites 🥺</p><span>Favourite a song to get started</span></div></div><div id="favourites" style="display: none;"><button type="button" class="btn btn-none  btn-block  " id="random-favourite" style="" onclick="action3(this)"><i class="fa fa-magic"></i> I'm feeling lucky</button><table class="table table-striped" id="favourites-table" style=""><thead id="favourites-table-head"><th>Title</th><th>Artist</th><th>Code</th></thead><tbody id="favourites-table-body"></tbody></table><ul class="pagination" /></div></div></div><div id="tab6" class="tab-pane"><div class="panel-body"><div class="panel panel-default"><div class="panel-heading"><h5>Settings</h5><div class="ibox-tools"></div></div><div class="panel-body" style="min-height: px"><div id="settings"><h4>Nickname:</h4><form id="nickname_form" role="form"><div class="form-group " id="nickname-field-group"><div class=" "><input type="text" placeholder="" id="nickname-field" name="nickname" rows="" class="form-control" value="" style="" autocomplete="on" autocorrect="on" autocapitalize="off" /></div></div><button type="submit" class="btn btn-primary    " id="submit_button1" style="" onclick="action4(this, get_nickname_form_object()); return false;"><i class="fa fa-check"></i></button></form><h4>Options:</h4><form id="developer_mode_form" role="form"><div class="i-checks"><label ><input type="checkbox" name="developer-mode" id="checkbox0"> Enable Developer Tools</input></label></div></form><h4>Info:</h4><div><button type="button" class="btn btn-primary  btn-block  " id="show-info" style="" onclick="action5(this)">Show Info</button></div></div></div></div><div class="panel panel-default"><div class="panel-heading"><h5>Queue song by ID</h5><div class="ibox-tools"></div></div><div class="panel-body" style="min-height: px"><form id="queue_id_form" role="form"><div class="form-group " id="ecd-field-group"><div class=" "><input type="text" placeholder="Song ID" id="ecd-field" name="ecd" rows="" class="form-control" value="" style="" autocomplete="on" autocorrect="on" autocapitalize="off" /></div></div><button type="submit" class="btn btn-primary    " id="submit_button2" style="" onclick="action6(this, get_queue_id_form_object()); return false;"><i class="fa fa-search"></i></button></form></div></div><div id="developer-tools"><div class="panel panel-warning"><div class="panel-heading"><h5>Developer Tools</h5><div class="ibox-tools"></div></div><div class="panel-body" style="min-height: px"><button type="button" class="btn btn-warning  btn-block  " id="" style="" onclick="action7(this)">Clear localStorage</button><button type="button" class="btn btn-warning  btn-block  " id="" style="" onclick="action8(this)">Clear sessionStorage</button><button type="button" class="btn btn-warning  btn-block  " id="" style="" onclick="action9(this)">Toggle Debug Mode</button><div id="debug-div" style="display: none;"><div class="panel-group" id="accordion0"><div class="panel panel-default"><div class="panel-heading"><h5><div class="panel-title"><a data-toggle="collapse" data-parent="#accordion0" href="#tab3">Device Info</a></div></h5><div class="ibox-tools"></div></div><div id="tab3" class="panel-collapse collapse in"><div class="panel-body"><pre id="device-info" /></div></div></div><div class="panel panel-default"><div class="panel-heading"><h5><div class="panel-title"><a data-toggle="collapse" data-parent="#accordion0" href="#tab4">sessionStorage</a></div></h5><div class="ibox-tools"></div></div><div id="tab4" class="panel-collapse collapse"><div class="panel-body"><pre id="session-storage" /></div></div></div><div class="panel panel-default"><div class="panel-heading"><h5><div class="panel-title"><a data-toggle="collapse" data-parent="#accordion0" href="#tab5">localStorage</a></div></h5><div class="ibox-tools"></div></div><div id="tab5" class="panel-collapse collapse"><div class="panel-body"><pre id="local-storage" /></div></div></div></div></div></div></div></div></div></div></div></div></div><div id="footer"><div id="button-container"><button type="button" class="btn btn-primary  btn-block  " id="scan-qr" style="" onclick="action10(this)"><i class="fa fa-qrcode"></i> Scan QR Code</button><button type="button" class="btn btn-danger    " id="leave-room" style="display: none" onclick="action11(this)"><i class="fa fa-unlink"></i> </button></div></div><small>Created by <a href='https://github.com/davidsiaw/alesap-server'>astrobunny</a> and <a href='https://github.com/blankaex/alesap'>Blankaex</a></small><div class="modal fade" id="scan-modal" tabindex="-1" role="dialog"><div class="modal-dialog" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button><h4>Scan QR Code</h4></div><div class="modal-body"><div class="camera-container"><div id="reader"></div><div id="selector-container" style="display: none;"><form id="camera_form" role="form"><div class="form-group"><label class="control-label">Select Camera</label><div class="input-group" style="width: 100%"><select id="camera-selector" class="form-control" name="cameras" placeholder=" "></select></div></div></form></div></div></div><div class="modal-footer"><button type="button" class="btn btn-primary  btn-block  " id="" style="" onclick="action12(this)">Close</button></div></div></div></div><div class="modal fade" id="song-modal" tabindex="-1" role="dialog"><div class="modal-dialog" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button><h4 id="song-modal-title"></h4></div><div class="modal-body"><div id="song-modal-body"></div></div><div class="modal-footer"><button type="button" class="btn btn-none  btn-block  " id="add-to-queue" style="" onclick="action13(this)">Add to queue</button><button type="button" class="btn btn-default    " id="favourite-button" style="" onclick="action14(this)"><i class="fa fa-heart"></i> </button></div></div></div></div><div class="modal fade" id="info-modal" tabindex="-1" role="dialog"><div class="modal-dialog" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button><h4 id="info-modal-title">Info</h4></div><div class="modal-body"><div id="info-modal-body"><h4>Session Status:</h4><p id="connected"></p><div id="most-played"></div></div></div><div class="modal-footer"><button type="button" class="btn btn-primary  btn-block  " id="" style="" onclick="action15(this)">Close</button></div></div></div></div><script>let API_URL = "https://api.alesap.astrobunny.net";
 </script>
 	            </div>
 			</div>
@@ -63,13 +64,25 @@ function getcolumns() {
 	</script>
     <script src="js/MathJax/MathJax.js?config=AM_HTMLorMML-full" async></script>
 
+    <script src="js/utils.js"></script>
+
+    <script src="js/song.js"></script>
+
+    <script src="js/search.js"></script>
+
     <script src="js/main.js"></script>
 
-    <script src="js/scan_qr.js"></script>
+    <script src="js/session.js"></script>
 
-    <script src="js/html5-qrcode.min.js"></script>
+    <script src="js/settings.js"></script>
 
-    <script src="js/toastify.js"></script>
+    <script src="js/controls.js"></script>
+
+    <script src="js/libs/html5-qrcode.min.js"></script>
+
+    <script src="js/libs/toastify.js"></script>
+
+    <script src="js/plugins/iCheck/icheck.min.js"></script>
 
 
 
@@ -78,163 +91,116 @@ function getcolumns() {
     
 
     <script>
-function get_form0_object()
-{
-	var object = {}
-	object["cameras"] = $( "#select0 option:selected" ).text();
-
-	return object;
-}
-
 function action0(caller, data) {
-	$('#scan_qr').modal('hide');
-}
-
-function action1(caller, data) {
-	$('#scan_qr').modal('show'); scan_qr();
-}
-
-function action2(caller, data) {
-	update_status('disconnected');
-}
-
-function action3(caller, data) {
 	start_search();
 }
 
-function get_form1_object()
+function action1(caller, data) {
+	stop_song();
+}
+
+function get_song_search_form_object()
 {
 	var object = {}
-	object["search"] = $('#textfield0').val();
+	object["search"] = $('#search-field').val();
 
 	return object;
 }
 
-function action4(caller, data) {
-	queue_song($('#song-modal').text(), $('#artist-modal').text(), $('#code-modal').text())
+function action2(caller, data) {
+	queue_random('history');
 }
 
+function action3(caller, data) {
+	queue_random('favourites');
+}
 
-	function refresh_table_dyn_table0()
-	{
-		var query_object = {};
+function action4(caller, data) {
+	set_nickname(false);
+}
 
-		$.get( "empty.json" , function( returned_data )
-		{
-			var data = returned_data;
-			var data_object = {};
-			if (data !== null && typeof data === 'object')
-			{
-				data_object = data;
-			}
-			else
-			{
-				data_object = JSON.parse(data);
-			}
+function get_nickname_form_object()
+{
+	var object = {}
+	object["nickname"] = $('#nickname-field').val();
 
-			var head = $("#dyn_table0_head")
-			var body = $("#dyn_table0_body")
+	return object;
+}
 
-			if($.isPlainObject(data_object))
-			{
-				for (var key in data_object)
-				{
-					var row = $('<tr>');
-					row.append($('<td>').text(key));
-					row.append($('<td>').text(data_object[key]));
-					body.append(row);
-				}
-			}
+function get_developer_mode_form_object()
+{
+	var object = {}
+	object["developer-mode"] = $('#checkbox0').is(":checked");
 
-			if ($.isArray(data_object))
-			{
-
-				var columnData = JSON.parse("[{\"name\":\"song\",\"title\":\"Song Name\",\"format\":null,\"transform\":null},{\"name\":\"artist\",\"title\":\"Artist\",\"format\":null,\"transform\":null},{\"name\":\"code\",\"title\":\"Code\",\"format\":null,\"transform\":null}]");
-				var columns = {};
-				var columnTitles = [];
-				head.empty();
-				if (false)
-				{
-					// Set up columns
-					for (var index in data_object)
-					{
-						for (var key in data_object[index])
-						{
-							columns[key] = Object.keys(columns).length;
-						}
-					}
-					for (var key in columns)
-					{
-						columnTitles.push(key);
-					}
-				}
-				else
-				{
-					for (var key in columnData)
-					{
-						columns[columnData[key]["name"]] = Object.keys(columns).length;
-						columnTitles.push(columnData[key]["title"]);
-					}
-				}
-
-				var row = $('<tr>');
-				for (var key in columnTitles)
-				{
-					var columnTitle = $('<th>').html(columnTitles[key]);
-					row.append(columnTitle);
-				}
-				head.append(row);
-
-				for (var index in data_object)
-				{
-					var row = $('<tr>');
-					for (var columnIndex = 0; columnIndex < Object.keys(columns).length; columnIndex++) {
-						var cell_data = data_object[index][ Object.keys(columns)[columnIndex] ];
-
-						if (columnData && columnData[columnIndex]["format"])
-						{
-							var format = columnData[columnIndex]["format"];
-							var matches = format.match(/###.+?###/g)
-
-							var result = format;
-							for (var matchIndex in matches)
-							{
-								var member_name = matches[matchIndex].match(/[^#]+/)[0];
-								result = result.replaceAll(matches[matchIndex], data_object[index][member_name]);
-							}
-
-							if (columnData && columnData[columnIndex]["transform"])
-							{
-								result = document["transform_" + columnData[columnIndex]["transform"]](result);
-							}
-							row.append($('<td>').html( result ).data("object", data_object[index]) );
-						}
-						else
-						{
-							if (columnData && columnData[columnIndex]["transform"])
-							{
-								cell_data = document["transform_" + columnData[columnIndex]["transform"]](cell_data);
-							}
-							row.append($('<td>').text( cell_data ).data("object", data_object[index]) );
-						}
-					}
-					body.append(row);
-				}
-			}
-
-		});
-	}
-
-	refresh_table_dyn_table0();
-
+	return object;
+}
 
 function action5(caller, data) {
-	stop_song();
+	show_info();
 }
 
 function action6(caller, data) {
-	toggle_debug(); update_status('connected');
+	queue_song($('#ecd-field').val());
 }
+
+function get_queue_id_form_object()
+{
+	var object = {}
+	object["ecd"] = $('#ecd-field').val();
+
+	return object;
+}
+
+function action7(caller, data) {
+	localStorage.clear();
+}
+
+function action8(caller, data) {
+	sessionStorage.clear();
+}
+
+function action9(caller, data) {
+	toggle_debug();
+}
+
+function action10(caller, data) {
+	$('#scan-modal').modal('show'); scan_qr();
+}
+
+function action11(caller, data) {
+	update_status('disconnected');
+}
+
+function get_camera_form_object()
+{
+	var object = {}
+	object["cameras"] = $( "#camera-selector option:selected" ).text();
+
+	return object;
+}
+
+function action12(caller, data) {
+	$('#scan-modal').modal('hide');
+}
+
+function action13(caller, data) {
+	queue_song($('#current-song-code').text())
+}
+
+function action14(caller, data) {
+	add_favourite($('#current-song-code').text());
+}
+
+function action15(caller, data) {
+	$('#info-modal').modal('hide');
+}
+
+$(document).ready(function () {
+    $('.i-checks').iCheck({
+        checkboxClass: 'icheckbox_square-green',
+        radioClass: 'iradio_square-green',
+    });
+});
 
 
 
