@@ -52,13 +52,15 @@ function fill_song_history() {
 
 // reads favourites from localStorage and renders it into the favourites table
 function fill_favourites() {
-    if (localStorage.getItem("favourites") != null) {
-        const favourites = JSON.parse(localStorage.getItem("favourites"));
+    const favourites = JSON.parse(localStorage.getItem("favourites"));
+    if (favourites) {
         $("#empty-favourites").hide();
         $("#favourites").show();
         $("#favourites-table-body").empty();
-        favourites.forEach(function(song) {
-            append_table("#favourites-table-body", song);
+        Object.keys(favourites).forEach(function(song_code) {
+            if (favourites[song_code]) {
+                append_table("#favourites-table-body", song_code);
+            }
         });
     }
     // sort table by artist, then title
