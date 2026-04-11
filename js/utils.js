@@ -21,18 +21,21 @@ function song_cache_get(song_code, key) {
 
 // appends extra content type info to a song title if not already present
 function normalize_song(song_code) {
-    const song_cache = JSON.parse(localStorage.getItem("song_cache"));
-    let song = song_cache[song_code].song;
-    if (
-        // check for extra info
-        song_cache[song_code].extra.content_type != null &&
-        // ignore if extra info already included in title
-        !song.toLowerCase().includes(song_cache[song_code].extra.content_type.toLowerCase())
-    ) {
-        // append extra info to title
-        song += `【${song_cache[song_code].extra.content_type}】`;
+    let normalized = song_cache_get(song_code, "song");
+
+    const extra_content =
+        song_cache_get(song_code, "tag_bv") ??
+        song_cache_get(song_code, "content_type");
+
+    if (!extra_content) {
+        return normalized;
     }
-    return song;
+
+    if (!normalized.toLowerCase().includes(extra_content.toLowerCase())) {
+        normalized += `【${extra_content}】`;
+    }
+
+    return normalized;
 }
 
 // builds the list of modal body elements for a given song
