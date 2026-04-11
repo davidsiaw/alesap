@@ -7,35 +7,75 @@
  * +------------------------------------------------------------
  */
 
+var count = 0;
+var current_request_id = '';
+
+var current_search_page = 0;
+var search_active = false;
+var search_ready = false;
+setInterval(() => {
+    if (search_active && search_ready)
+    {
+        current_search_page += 1;
+        start_search(current_search_page);
+    }
+}, SEARCH_INTERVAL);
+
 // sends a search query to the API and renders results into the song table
 function start_search(page) {
+    search_ready = false;
+    if (page == 0)
+    {
+        current_search_page = 0;
+        search_active = true;
+        current_request_id = 'r' + count;
+        count += 1;
+    }
     $.ajax({
         type: "POST",
         url: API_URL + "/api/v1/command/search/",
         data: JSON.stringify({
             str: $("#search-field").val(),
+            request_id: current_request_id,
             page: page
         }),
         contentType: "application/json; charset=utf-8"
     }).then(function(data) {
+
+        if (data.request_id != current_request_id) { return }
         // clear song table entries & unhide table if starting a new search
         if (page === 0) {
             $("#song-table-body").empty();
             $("#song-table").show();
         }
+
+        z = Math.min(Math.ceil(data.page * 20 / data.total  * 100), 100)
+        console.log(data)
+        progress_bar_inside.style.width = z + "%"
+        if (z == 100)
+        {
+            progress_bar_inside.style.backgroundColor = 'green'
+        }
+        else
+        {
+            progress_bar_inside.style.backgroundColor = 'blue'
+        }
+
         data.results[0].forEach(song => {
             let song_cache = JSON.parse(localStorage.getItem("song_cache")) ?? {};
             song_cache[song["code"]] = song;
             localStorage.setItem("song_cache", JSON.stringify(song_cache));
             append_table("#song-table-body", song["code"]);
+
         });
         // unhide song table
         if (page >= SEARCH_PAGE_LIMIT || data.results[0].length === 0) {
+            search_active = false;
             return;
         }
-        setTimeout(() => {
-            start_search(page + 1);
-        }, SEARCH_INTERVAL);
+        search_ready = true;
+
+
     });
 }
 
