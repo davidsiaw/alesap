@@ -47,12 +47,15 @@ function fill_song_history() {
         $("#history").show();
         $("#history-table-body").empty();
         const today = new Date().toLocaleDateString("ja-JP");
-        song_history.forEach(function(song) {
-            if (song["last_played_date"] == today) {
-                append_table("#history-table-body", song["song_code"], song["last_played_time"]);
-            } else {
-                append_table("#history-table-body", song["song_code"], song["last_played_date"]);
-            }
+        song_history.forEach(function(entry) {
+            const date_time = entry.last_played_date == today ?
+                entry.last_played_time :
+                entry.last_played_date;
+            append_table(
+                "#history-table-body",
+                entry.song_code,
+                date_time
+            );
         });
         // sort table in reverse chronological
         const rows = $("#history-table-body tr").get().reverse();
