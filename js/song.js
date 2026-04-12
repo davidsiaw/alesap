@@ -9,8 +9,14 @@
 
 // sends a search query to the API and renders results into the song table
 function start_search(page) {
-    $("#empty-search").hide();
-    $("#loader-div").css("display", "flex");
+    // update ui to give feedback that search is starting
+    if (page === 0) {
+        $("#empty-search").hide();
+        $("#song-table-body").empty();
+        $("#song-table").show();
+        $("#loader-div").css("display", "flex");
+    }
+    // call search api
     $.ajax({
         type: "POST",
         url: API_URL + "/api/v1/command/search/",
@@ -20,33 +26,27 @@ function start_search(page) {
         }),
         contentType: "application/json; charset=utf-8"
     }).then(function(data) {
-        console.log(data);
-        if (!data.results?.length || !data.total) {
+        if (data.results?.length && data.total) {
+            // add search results to song cache + search table
+            data.results[0].forEach(result => {
+                let song_cache = JSON.parse(localStorage.getItem("song_cache")) ?? {};
+                song_cache[result.code] = result;
+                localStorage.setItem("song_cache", JSON.stringify(song_cache));
+                append_table("#song-table-body", result.code);
+            });
+            // continue searching unless no more results or max page limit reached
+            const end_search =
+                data.total / SEARCH_RESULTS_LIMIT > data.page + 1 ||
+                data.page >= SEARCH_PAGE_LIMIT;
+            if (end_search) {
+                setTimeout(() => { start_search(page + 1); }, SEARCH_INTERVAL);
+            } else {
+                $("#loader-div").hide();
+            }
+        } else {
+            // update ui if no search results at all
             $("#empty-search").show();
             $("#song-table").hide();
-            $("#loader-div").hide();
-            return;
-        }
-        // clear song table entries & unhide table if starting a new search
-        if (page === 0) {
-            $("#song-table-body").empty();
-            $("#song-table").show();
-        }
-        data.results[0].forEach(song => {
-            let song_cache = JSON.parse(localStorage.getItem("song_cache")) ?? {};
-            song_cache[song["code"]] = song;
-            localStorage.setItem("song_cache", JSON.stringify(song_cache));
-            append_table("#song-table-body", song["code"]);
-        });
-        if (page >= SEARCH_PAGE_LIMIT || data.results[0].length === 0) {
-            $("#loader-div").hide();
-            return;
-        }
-        if (data.total > SEARCH_RESULTS_LIMIT) {
-            setTimeout(() => {
-                start_search(page + 1);
-            }, SEARCH_INTERVAL);
-        } else {
             $("#loader-div").hide();
         }
     });
