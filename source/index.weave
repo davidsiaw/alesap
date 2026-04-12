@@ -225,7 +225,7 @@ empty_page "", "alesap.blankaex.reisen", theme: :dark do
                 end
                 code "genre:"
                 p do
-                    text "Filter by artist, e.g. "
+                    text "Filter by genre, e.g. "
                     code "genre:アニメ"
                 end
                 code "type:"
