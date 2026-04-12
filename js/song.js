@@ -8,7 +8,7 @@
  */
 
 // sends a search query to the API and renders results into the song table
-function start_search(page) {
+function start_search(page = 0) {
     // update ui to give feedback that search is starting
     if (page === 0) {
         $("#empty-search").hide();

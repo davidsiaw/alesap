@@ -12,7 +12,7 @@ function startup() {
     // add listeners to search bar
     $(window).keydown(function(event) {
         if (event.keyCode == 13) {
-            start_search(0);
+            start_search();
             event.preventDefault();
             return false;
         }
