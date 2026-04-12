@@ -17,9 +17,6 @@ function startup() {
             return false;
         }
     });
-    $("#search-field").on("change", "", function() {
-        start_search(0);
-    });
 
     // add listeners to populate tabs
     $("li a:contains('History')").on("click", function() {
