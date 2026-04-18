@@ -18,7 +18,13 @@ function startup() {
         }
     });
 
-    // add listeners to populate tabs
+    // add listeners to tabs
+    $("li.active a:contains('Search')").on("click", function() {
+        $("#song_search_form")[0].reset();
+        $("#empty-search").hide();
+        $("#song-table").hide();
+        $("#song-table-body").empty();
+    });
     $("li a:contains('History')").on("click", function() {
         fill_song_history();
     });
