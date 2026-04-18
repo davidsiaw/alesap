@@ -88,7 +88,7 @@ function back_handler() {
     // -> back to search tab
     const $active_tab = $("li.active");
     if (!$active_tab.find("a:contains('Search')").length) {
-        $("li a:contains('Search')").trigger("click");
+        $("li a:contains('Search')").focus().trigger("click");
         return;
     }
 

@@ -18,10 +18,12 @@ function startup() {
         }
     });
 
-    // handle mobile back button
-    history.back = () => {
+    // handle browser back & mobile back button
+    history.pushState(null, null, location.href);
+    $(window).on('popstate', function(event) {
+        history.pushState(null, null, location.href);
         back_handler();
-    };
+    });
 
     // add listeners to tabs
     $("li.active a:contains('Search')").on("click", function() {
