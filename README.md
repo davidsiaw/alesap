@@ -1,6 +1,6 @@
 <h1 align="center">🍯🍞 alesap</h1>
 
-<p align="center"> <i>Browser controller for a certain bread-based karaoke
+<p align="center"> <i>Browser controller for a certain carb-heavy karaoke
 system,<br> powered by <a
 href="https://github.com/davidsiaw/alesap-server">alesap-server</a>.</i> </p>
 
