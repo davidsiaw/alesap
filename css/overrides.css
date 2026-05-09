@@ -102,6 +102,7 @@ form input, form select {
 
 .jumbotron {
     text-align: center !important;
+    margin: 0px !important;
 }
 
 .modal-content {
