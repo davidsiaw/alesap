@@ -37,7 +37,7 @@ column_artist:
   ja: 歌手
 column_last_played:
   en: Last Played
-  ja: 最終再生
+  ja: 再生日時
 empty_search:
   en: "Nothing to see here \U0001F617"
   ja: "検索結果0件です \U0001F617"

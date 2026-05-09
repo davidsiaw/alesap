@@ -35,6 +35,8 @@ function startup() {
         $("a[href='#tab2']").on("click", function () {
             fill_favourites();
         });
+
+        // intelligently run search on filter change
         $("#song_search_form input").on("ifChecked", function () {
             if ($("#search-field").val().trim()) {
                 start_search();
@@ -52,16 +54,18 @@ function startup() {
             sessionStorage.removeItem("debug_mode");
         });
 
-        // japanese mode: restore from localStorage and listen for changes
-        const japanese_mode = localStorage.getItem("language") === "ja";
-        $('input[name="japanese-mode"]').prop('checked', japanese_mode);
-        $('input[name="japanese-mode"]').on('ifChecked', function () {
-            localStorage.setItem("language", "ja");
-            apply_translations();
-        });
-        $('input[name="japanese-mode"]').on('ifUnchecked', function () {
-            localStorage.setItem("language", "en");
-            apply_translations();
+        // manage language selection
+        $("#language-selector").val(
+            Object.keys(LANGUAGE_ROUTES).find(
+                key => LANGUAGE_ROUTES[key] === location.pathname
+            ) || "English"
+        );
+        $("#language-selector").on("change", function () {
+            const path = location.pathname;
+            const target = LANGUAGE_ROUTES[$(this).val()];
+            if (target && path !== target) {
+                location.href = target;
+            }
         });
 
         // checks if session is already active

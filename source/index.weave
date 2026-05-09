@@ -14,7 +14,7 @@ raw_page "strings.json", "strings" do
   text JSON.generate(YAML.load_file("source/strings.yml"))
 end
 
-languages = ["", "en", "ja"]
+languages = ["", "ja"]
 
 languages.each do |lang|
     empty_page "#{lang}", "alesap.blankaex.reisen", theme: :dark do
@@ -164,7 +164,7 @@ languages.each do |lang|
                             dropdown "languages", "", [
                                 I18N.s('language_selector_en', lang),
                                 I18N.s('language_selector_ja', lang)
-                            ]
+                            ], id: "language-selector"
                         end
                         h4 I18N.s('options_heading', lang)
                         wform id: "developer_mode_form" do
