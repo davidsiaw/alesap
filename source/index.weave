@@ -1,13 +1,17 @@
 # vim:ft=ruby
+require 'json'
 require 'yaml'
 
-# Load all UI strings from the project root
 class I18N
     STRINGS = YAML.load_file("source/strings.yml")
 
     def self.s(key, language)
-      STRINGS.dig(key, language) || "Missing key: #{key}"
+      STRINGS.dig(key, language) || "⚠️ #{key}"
     end
+end
+
+raw_page "strings.json", "strings" do
+  text JSON.generate(YAML.load_file("source/strings.yml"))
 end
 
 languages = ["", "en", "ja"]
@@ -21,6 +25,7 @@ languages.each do |lang|
         #
         # Imports
         #
+        request_js "js/i18n.js"
         request_js "js/utils.js"
         request_js "js/song.js"
         request_js "js/main.js"
@@ -53,14 +58,11 @@ languages.each do |lang|
                         end
                     end
                     radio "options", [
-                      { label: "All", value: "all" },
-                      { label: "Title", value: "title" },
-                      { label: "Artist", value: "artist" },
-                      { label: "Franchise", value: "franchise" }
+                      { label: I18N.s("filter_all", lang),    value: "all"    },
+                      { label: I18N.s("filter_title", lang),  value: "title"  },
+                      { label: I18N.s("filter_artist", lang), value: "artist" },
+                      { label: I18N.s("filter_tags", lang),   value: "tags"   }
                     ], value: "all"
-                end
-                small id: "search-help" do
-                    a I18N.s('search_help_link', lang), href: "javascript:$('#search-help-modal').modal('show');;"
                 end
                 # wrap table in div to avoid conflicts with pagination element
                 div do
@@ -247,36 +249,6 @@ languages.each do |lang|
             footer do
                 block_button I18N.s('close_button', lang), id: "scan-close-btn" do
                     script "$('#scan-modal').modal('hide');"
-                end
-            end
-        end
-
-        modal "search-help-modal" do
-            header {
-                h4 I18N.s('search_help_title', lang), id: "search-help-modal-title"
-            }
-            body {
-                div id: "search-help-modal-body" do
-                    code "artist:"
-                    p do
-                        span I18N.s('search_help_artist', lang)
-                        code "artist:yoasobi"
-                    end
-                    code "genre:"
-                    p do
-                        span I18N.s('search_help_genre', lang)
-                        code "genre:アニメ"
-                    end
-                    code "type:"
-                    p do
-                        span I18N.s('search_help_type', lang)
-                        code "type:vocaloid"
-                    end
-                end
-            }
-            footer do
-                block_button I18N.s('close_button', lang), id: "search-help-close-btn" do
-                    script "$('#search-help-modal').modal('hide');"
                 end
             end
         end

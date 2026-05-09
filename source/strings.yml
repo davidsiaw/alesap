@@ -23,9 +23,18 @@ search_placeholder:
 search_button:
   en: Search
   ja: 検索
-search_help_link:
-  en: Search help
-  ja: 検索ヘルプ
+filter_all:
+  en: All
+  ja: 全て
+filter_title:
+  en: Title
+  ja: 曲名
+filter_artist:
+  en: Artist
+  ja: 歌手
+filter_tags:
+  en: Tags
+  ja: タグ
 column_title:
   en: Title
   ja: タイトル

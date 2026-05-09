@@ -1,0 +1,27 @@
+/*
+ * +------------------------------------------------------------
+ * | i18n.js
+ * +------------------------------------------------------------
+ * | internationalization functions
+ * +------------------------------------------------------------
+ */
+
+function load_strings() {
+    return fetch("strings.json", { cache: "no-cache" })
+        .then(r => r.json())
+        .then(data => { UI_STRINGS = data; })
+        .catch(err => {
+            console.error("Failed to load strings.json", err);
+        });
+}
+
+function i18n(key) {
+    const entry = UI_STRINGS[key];
+    let value;
+    if (!entry || typeof entry !== "object") {
+        value = `⚠️ ${key}`;
+    } else {
+        value = entry[UI_LANGUAGE];
+    }
+    return value;
+}

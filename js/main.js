@@ -11,9 +11,6 @@
 function startup() {
     // load i18n strings first, then initialise everything else
     load_strings().then(() => {
-        // apply translations to all data-i18n-marked elements
-        apply_translations();
-
         // handle browser back & mobile back button
         history.pushState(null, null, location.href);
         $(window).on('popstate', function(event) {
