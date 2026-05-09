@@ -2,7 +2,20 @@
 require 'json'
 
 # Load all UI strings from the project root
-STRINGS = JSON.parse(File.read(File.join(__dir__, 'strings.json')))
+class I18N
+    def self.strings
+      @strings ||= JSON.parse(File.read(File.join(__dir__, 'strings.json')))
+    end
+
+    def self.s(strings, key)
+      en = strings.dig(key, 'en') || key
+      "<span data-i18n=\"#{key}\">#{en}</span>"
+    end
+
+    def self.t(strings, key)
+      strings.dig(key, 'en') || key
+    end
+end
 
 raw_page "strings.json", "strings.json" do
     text File.read("source/strings.json")
