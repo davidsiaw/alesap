@@ -180,7 +180,7 @@ toast_not_connected_long:
   ja: 未接続—QRコードをスキャンして下さい
 status_connected_on:
   en: Connected on {date}
-  ja: "{date} に接続"
+  ja: "{date}に接続"
 status_not_connected:
   en: Not Connected
   ja: 未接続

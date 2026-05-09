@@ -39,7 +39,7 @@ function show_info() {
             function (_, [code, count]) {
                 const $row = $("<tr>")
                     .append($("<td>").text(`〈${count}〉`))
-                    .append($("<td>").text(song_cache_get(code, "song")));
+                    .append($("<td>").text(normalize_song(code)));
                 most_played_table.append($row);
             }
         );

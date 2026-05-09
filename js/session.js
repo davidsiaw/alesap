@@ -83,7 +83,7 @@ function update_status(status) {
     const active = status && session_is_active();
 
     $("#connected").text(active ?
-        i18n("status_connected_on", { date: sessionStorage.getItem("connected_at") }) :
+        i18n("status_connected_on").replace("{date}", sessionStorage.getItem("connected_at")) :
         i18n("status_not_connected")
     );
 
