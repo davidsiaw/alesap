@@ -37,14 +37,30 @@ function queue_song(song_code) {
 
 // queues a random song selected from the song history
 function queue_random(table) {
+    let songs = [];
+
     if (table === "history") {
         const song_history = JSON.parse(localStorage.getItem("song_history"));
-        queue_song(song_history[Math.floor(Math.random() * song_history.length)]["song_code"]);
+        songs = song_history.map(song => song.song_code);
     } else if (table === "favourites") {
         const favourites = JSON.parse(localStorage.getItem("favourites"));
-        const songs = Object.keys(favourites).filter(key => favourites[key]);
-        queue_song(songs[Math.floor(Math.random() * songs.length)]);
+        songs = Object.keys(favourites).filter(key => favourites[key]);
     }
+
+    const storage_key = `queued_random_${table}`;
+    let queued = JSON.parse(sessionStorage.getItem(storage_key));
+
+    // reset if all songs already used
+    if (queued.length >= new Set(songs).size) {
+        queued = [];
+    }
+
+    const available = songs.filter(song => !queued.includes(song));
+    const selected = available[Math.floor(Math.random() * available.length)];
+
+    queued.push(selected);
+    sessionStorage.setItem(storage_key, JSON.stringify(queued));
+    queue_song(selected);
 }
 
 // sends a stop request to the API to halt the current song
