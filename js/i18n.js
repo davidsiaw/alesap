@@ -7,7 +7,7 @@
  */
 
 function load_strings() {
-    return fetch("strings.json", { cache: "no-cache" })
+    return fetch("/strings.json", { cache: "no-cache" })
         .then(r => r.json())
         .then(data => { UI_STRINGS = data; })
         .catch(err => {
