@@ -1,8 +1,9 @@
-.cmdsh
+.git
 .bundle
 .bundler
+.pi-sessions
+.pirag
+.cmdsh*
+build
 deploykey
 deploykey.pub
-.cmdsh*
-.pi-sessions/
-.pirag/

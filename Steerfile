@@ -1,0 +1,9 @@
+dockerfile "Dockerfile"
+
+expose "4567"
+type :http
+
+app_params "-e API_URL=https://alesap-api.localdev.astrobunny.net"
+
+# bind-mount the project so edits to source/, js/ and css/ show up without a rebuild
+app_params "-v #{Dir.pwd}:/app"
