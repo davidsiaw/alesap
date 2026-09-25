@@ -76,7 +76,7 @@ function init_song_modal() {
 // wires up history tab: click to render, filter input to re-render
 function init_history_tab() {
     $("a[href='#tab1']").on("click", function () {
-        fill_song_history();
+        fill_song_history($("#history-filter-field").val());
     });
     $("#history-filter-field").on("input", function () {
         fill_song_history($(this).val());
@@ -86,7 +86,7 @@ function init_history_tab() {
 // wires up favourites tab: click to render, filter input to re-render
 function init_favourites_tab() {
     $("a[href='#tab2']").on("click", function () {
-        fill_favourites();
+        fill_favourites($("#favourites-filter-field").val());
     });
     $("#favourites-filter-field").on("input", function () {
         fill_favourites($(this).val());
